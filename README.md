@@ -10,15 +10,16 @@ algorithm storeage
 > 단, 이론은 빠삭하게
 
 - **1주차(비트마스킹,해시) 복기문제**
-> - 외판원순회
-> - 최장 공통 부분 문자열
+> - [외판원순회(#2098)](https://www.acmicpc.net/problem/2098)
+> - [Suffix Array(#9248)](https://www.acmicpc.net/problem/9248)
+> - [최장 공통 부분 문자열(#9249)](https://www.acmicpc.net/problem/9249)
 
 - **2주차(스택/큐, 힙) 문제**
-> - Router(15828)
-> - 이상한 하노이(15500)
-> - 빈 문자열 만들기(19848)
-> - 트리 순회(1991)
-> - 크루스칼의 공(1396)
+> - [Router(#15828)](https://www.acmicpc.net/problem/15828)
+> - [이상한 하노이(#15500)](https://www.acmicpc.net/problem/15500)
+> - [빈 문자열 만들기(#19848)](https://www.acmicpc.net/problem/19848)
+> - [트리 순회(#1991)](https://www.acmicpc.net/problem/1991)
+> - [크루스칼의 공(#1396)](https://www.acmicpc.net/problem/1396)
 
 ---
 
