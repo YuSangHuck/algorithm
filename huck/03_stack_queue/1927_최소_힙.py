@@ -10,6 +10,16 @@ class MinimumHeap:
 
   def size(self):
     return len(self.__data) - 1
+  def childrens(self, key):
+    ret = []
+    s = self.size()
+    lcKey = 2 * key
+    rcKey = 1 + lcKey
+    if (lcKey<= s):
+      ret.append(lcKey)
+    if (rcKey <= s):
+      ret.append(rcKey)
+    return ret
 
   def insert(self, element):
     self.__data.append(element) # size 1개 늘려놓고
@@ -28,7 +38,53 @@ class MinimumHeap:
     self.__data[i] = element
 
   def delete(self):
-    max = 0
+    min = float('inf')
+    size = self.size()
+    if (size > 1):
+      i = 1
+      # 일단 최소는 루트노드
+      min = self.__data[i]
+
+      # 루트에 leaf 넣어주고
+      self.__data[i] = self.__data[size]
+      del self.__data[size]
+
+      while (True):
+        # 부모가 i일때, chlidrens 중 하나라도 부모보다 작으면
+        childrens = self.childrens(i)
+        minKey = None
+        tmpMin = self.__data[i]
+        for childKey in childrens:
+          if (tmpMin > self.__data[childKey]):
+            tmpMin = self.__data[childKey]
+            minKey = childKey
+
+        if (not minKey):
+          break
+
+        self.__data[minKey] = self.__data[i]
+        self.__data[i] = tmpMin
+
+        i *= 2
+    elif (size > 0):
+      # 루트노드 반환
+      min = self.__data[1]
+      del self.__data[1]
+    else:
+      min = 0
+
+    return min
+
+
+    min = self.__data[1]
+    size = self.size()
+    i = self.size()
+
+    # 자식 중 더 작은놈이랑 교환
+
+    del self.__data[size]
+
+
     size = self.size()
     if size != 0:
       pos = 0
@@ -44,7 +100,7 @@ class MinimumHeap:
       del self.__data[pos]
     else:
       max = 0
-    return max
+    return min
 
 def solution():
   minHeap = MinimumHeap()
