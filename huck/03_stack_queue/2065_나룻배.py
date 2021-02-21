@@ -49,10 +49,7 @@ def handleInput():
   inputFileName = fileName + inputFileSuffix
   sys.stdin = open(inputFileName, "r")
 
-if __name__ == "__main__":
-  if None != os.getenv('IS_LOCAL'):
-    handleInput()
-
+def solution():
   lPassengers = Queue()
   rPassengers = Queue()
   onBoarding = Queue()
@@ -103,9 +100,9 @@ if __name__ == "__main__":
       curPassengers = all[isLeft]
     # 3-2. 아무도 안탔을때
     else:
-      asidePassengers = all[not isLeft]
+      oppsitePassengers = all[not isLeft]
       # 반대쪽에 있으면 이동
-      if (not asidePassengers.isEmpty() and asidePassengers.front().readyAt <= timestamp):
+      if (not oppsitePassengers.isEmpty() and oppsitePassengers.front().readyAt <= timestamp):
         isLeft = not isLeft
         timestamp += t
         curPassengers = all[isLeft]
@@ -123,3 +120,8 @@ if __name__ == "__main__":
     p = done.dequeue()
     print(p.arriveAt)
 
+if __name__ == "__main__":
+  if None != os.getenv('IS_LOCAL'):
+    handleInput()
+
+  solution()
