@@ -106,9 +106,10 @@ def solution():
   minHeap = MinimumHeap()
   # 첫줄은 연산개수 N
   N = int(input())
+  lines = sys.stdin.readlines()
   # N개의줄 연산정보(x)
-  for _ in range(N):
-    x = int(input())
+  for line in lines:
+    x = int(line)
     if x != 0:
       # 최소힙에 대입
       minHeap.insert(x)
