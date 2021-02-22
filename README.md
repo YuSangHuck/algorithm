@@ -16,6 +16,10 @@ algorithm storeage
 
 - **2주차(스택/큐, 힙) 문제**
 > - [Router(#15828)](https://www.acmicpc.net/problem/15828)
+> - [스택(#10828)](https://www.acmicpc.net/problem/10828)
+---
+> - [나룻배(#2065)](https://www.acmicpc.net/problem/2065)
+> - [최소 힙(#1927)](https://www.acmicpc.net/problem/1927)
 > - [이상한 하노이(#15500)](https://www.acmicpc.net/problem/15500)
 > - [빈 문자열 만들기(#19848)](https://www.acmicpc.net/problem/19848)
 > - [트리 순회(#1991)](https://www.acmicpc.net/problem/1991)
