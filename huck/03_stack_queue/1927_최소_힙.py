@@ -3,109 +3,78 @@ import os
 
 # 트리는 비선형 자료구조 & 계층구조
 # (트리 기본지식)[https://towardsdatascience.com/8-useful-tree-data-structures-worth-knowing-8532c7231e8c]
+# 최소힙 https://www.geeksforgeeks.org/min-heap-in-python/
+
+
 
 class MinimumHeap:
-  def __init__(self):
-    self.__data = [None] # one-based array
+  def __init__(self, maxSize = 100000):
+    self.__maxSize = maxSize
+    self.__ROOT_NODE_IDX = 1
+    self.__data = [0] * (1 + maxSize) # one-based array. minHeap이니까 0으로 초기화.
+    self.__data[0] = -1 * sys.maxsize # index가 0은 제일 작은값이 되어야 한다.
+    self.__size = 0
 
-  def size(self):
-    return len(self.__data) - 1
-  def childrens(self, key):
-    ret = []
-    s = self.size()
-    lcKey = 2 * key
-    rcKey = 1 + lcKey
-    if (lcKey<= s):
-      ret.append(lcKey)
-    if (rcKey <= s):
-      ret.append(rcKey)
-    return ret
+  def parent(self, pos):
+    return pos // 2
+  def leftChid(self, pos):
+    return 2 * pos
+  def rightChid(self, pos):
+    return 1 + (2 * pos)
+  def isLeaf(self, pos):
+    if ((self.__size // 2) <= pos) and (pos <= self.__size):
+      return True
+    return False
+  def swap(self, pos1, pos2):
+    self.__data[pos1], self.__data[pos2] = self.__data[pos2], self.__data[pos1]
+  # pos부터 minHeap정렬. 자식으로 퍼져나간다.
+  def minimumHeapify(self, pos):
+    if (self.__size and (not self.isLeaf(pos))):
+      leftChildPos = self.leftChid(pos)
+      rightChildPos = self.rightChid(pos)
+      # 부모보다 자식노드가 크다면
+      if (self.__data[leftChildPos] < self.__data[pos] or
+        self.__data[rightChildPos] < self.__data[pos]):
+        # 왼쪽자식보다 더 크면
+        if (self.__data[leftChildPos] < self.__data[pos]):
+          self.swap(leftChildPos, pos)
+          self.minimumHeapify(leftChildPos)
+        # 오른쪽자식보다 더 크면
+        else:
+          self.swap(rightChildPos, pos)
+          self.minimumHeapify(rightChildPos)
+
 
   def insert(self, element):
-    self.__data.append(element) # size 1개 늘려놓고
-    i = self.size()
+    if (self.__size >= self.__maxSize):
+      return -1 # maxSize 이상 insert 할 수 없다.
 
-    # 루트노드(i != 1)가 아니고
-    # 부모랑 비교.
-    # 최소힙이므로 parentEl.value >= curEl.value 여야 한다.
-    # 같은건 어떻게?
-    # parentKey = i // 2
-    while((i > 1) and (self.__data[i] < self.__data[i // 2])):
-      # 부모(self.__data[i // 2])의 value를 자식(self.__data[i])한테 넣어준다
-      self.__data[i] = self.__data[i // 2]
-      i //= 2
+    self.__size += 1
+    # 마지막 리프 다음 자리에 element를 넣고
+    self.__data[self.__size] = element
 
-    self.__data[i] = element
+    curPos = self.__size
+    # curPos와 curPos의 parent랑 비교해서 바꿀 수 있을때까지 바꾼다.
+    while( self.__data[curPos] < self.__data[self.parent(curPos)]):
+      self.swap(curPos, self.parent(curPos))
+      curPos = self.parent(curPos)
 
   def delete(self):
-    min = float('inf')
-    size = self.size()
-    if (size > 1):
-      i = 1
-      # 일단 최소는 루트노드
-      min = self.__data[i]
+    if (self.__size == 0):
+      return 0
+    # min은 root
+    min = self.__data[self.__ROOT_NODE_IDX]
+    # max를 root에 대입
+    self.__data[self.__ROOT_NODE_IDX] = self.__data[self.__size]
+    self.__size -= 1
+    self.minimumHeapify(self.__ROOT_NODE_IDX)
 
-      # 루트에 leaf 넣어주고
-      self.__data[i] = self.__data[size]
-      del self.__data[size]
-
-      while (True):
-        # 부모가 i일때, chlidrens 중 하나라도 부모보다 작으면
-        childrens = self.childrens(i)
-        minKey = None
-        tmpMin = self.__data[i]
-        for childKey in childrens:
-          if (tmpMin > self.__data[childKey]):
-            tmpMin = self.__data[childKey]
-            minKey = childKey
-
-        if (not minKey):
-          break
-
-        self.__data[minKey] = self.__data[i]
-        self.__data[i] = tmpMin
-
-        i *= 2
-    elif (size > 0):
-      # 루트노드 반환
-      min = self.__data[1]
-      del self.__data[1]
-    else:
-      min = 0
-
-    return min
-
-
-    min = self.__data[1]
-    size = self.size()
-    i = self.size()
-
-    # 자식 중 더 작은놈이랑 교환
-
-    del self.__data[size]
-
-
-    size = self.size()
-    if size != 0:
-      pos = 0
-      # sibling끼리는 상관관계가 없으므로 비교가 필요하면 해야함.
-      if (size > 1 and size % 2):
-        if (self.__data[size] > self.__data[size-1]):
-          pos = size
-        else:
-          pos = size-1
-      else:
-        pos = size
-      max = self.__data[pos]
-      del self.__data[pos]
-    else:
-      max = 0
     return min
 
 def solution():
-  minHeap = MinimumHeap()
   # 첫줄은 연산개수 N
   N = int(input())
+  minHeap = MinimumHeap(N)
   lines = sys.stdin.readlines()
   # N개의줄 연산정보(x)
   for line in lines:
@@ -115,8 +84,8 @@ def solution():
       minHeap.insert(x)
     else:
       # min을 출력하고 최소힙에서 min 제거
-      maximum = minHeap.delete()
-      print(maximum)
+      minimum = minHeap.delete()
+      print(minimum)
 
 def handleInput():
   inputFileSuffix = '_input.txt'
@@ -129,3 +98,6 @@ if __name__ == "__main__":
     handleInput()
 
   solution()
+
+
+
