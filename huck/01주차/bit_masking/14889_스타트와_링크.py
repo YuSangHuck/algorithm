@@ -1,3 +1,6 @@
+# 브루트포스 알고리즘
+# 백트래킹
+
 # N은 짝수, N/2로 나눠서 축구
 # Sij Sji, 능력치는 sum(Sij+Sji)
 # 능력치 차이의 최소는?
@@ -12,6 +15,7 @@ def handleInput():
   inputFileName = fileName + inputFileSuffix
   sys.stdin = open(inputFileName, "r")
 
+# 왜 함수 만들다 맘?
 def solution(expression):
 
 if __name__ == "__main__":
