@@ -1,3 +1,6 @@
+# 문자열
+# 접미사 배열과 lcp 배열
+
 import sys
 import os
 
