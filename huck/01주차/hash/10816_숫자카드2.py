@@ -6,7 +6,7 @@
 import sys
 import os
 
-g_result = []
+g_result = ''
 
 def handleInput():
   inputFileSuffix = '_input.txt'
@@ -18,18 +18,26 @@ def solution():
   global g_result
 
   nCount = int(input())
-  nList = []
-  nList.extend(int(char) for char in input().rstrip('\n').split(' '))
+  # - n을 dict(hashmap)으로 저장
+  # FIXME nDict에서 값을 넣을때 정렬해서 넣어서 추후에 찾을때 속도 향상
+  # -10,000,000보다 크거나 같고, 10,000,000보다 작거나 같다
+  # nDict = dict.fromkeys([(i - 10000000) for i in range(20000000)],0)
+  nDict = {} # { str: int }
+  for s_n in sys.stdin.readline().rstrip('\n').split(' '):
+    preVal = 0
+    if nDict.get(s_n) is not None:
+      preVal = nDict[s_n]
+    nDict[s_n] = 1 + preVal
+
   mCount = int(input())
-  mList = []
-  mList.extend(int(char) for char in input().rstrip('\n').split(' '))
-  g_result = [0 for i in range(len(mList))]
-
-
-  for i, mValue in enumerate(mList):
-    for j, nValue in enumerate(nList):
-      if mValue == nValue:
-        g_result[i] += 1
+  # - m을 바로바로 result에 삽입
+  # FIXME nDict에서 값을 찾을때 이분탐색으로
+  for s_m in sys.stdin.readline().rstrip('\n').split(' '):
+    res = 0
+    if nDict.get(s_m) is not None:
+      res = nDict[s_m]
+    # g_result.append(res)
+    g_result = g_result + str(res) + ' '
 
   print(g_result)
 
