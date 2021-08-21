@@ -5,71 +5,97 @@ import os
 # (트리 기본지식)[https://towardsdatascience.com/8-useful-tree-data-structures-worth-knowing-8532c7231e8c]
 # 최소힙 https://www.geeksforgeeks.org/min-heap-in-python/
 
-
-
 class MinimumHeap:
   def __init__(self, maxSize = 100000):
-    self.__maxSize = maxSize
-    self.__ROOT_NODE_IDX = 1
-    self.__data = [0] * (1 + maxSize) # one-based array. minHeap이니까 0으로 초기화.
-    self.__data[0] = -1 * sys.maxsize # index가 0은 제일 작은값이 되어야 한다.
-    self.__size = 0
+    self.maxSize = maxSize
+    self.size = 0
+    self.Heap = [0]*(self.maxSize + 1)
+    self.Heap[0] = -1 * sys.maxsize
+    self.FRONT = 1
 
+  # Function to return the position of
+  # parent for the node currently
+  # at pos
   def parent(self, pos):
     return pos // 2
-  def leftChid(self, pos):
+  # Function to return the position of
+  # the left child for the node currently
+  # at pos
+  def leftChild(self, pos):
     return 2 * pos
-  def rightChid(self, pos):
+
+  # Function to return the position of
+  # the right child for the node currently
+  # at pos
+  def rightChild(self, pos):
     return 1 + (2 * pos)
+
+  # Function that returns true if the passed
+  # node is a leaf node
   def isLeaf(self, pos):
-    if ((self.__size // 2) <= pos) and (pos <= self.__size):
+    if ((self.size // 2) <= pos) and (pos <= self.size):
       return True
     return False
-  def swap(self, pos1, pos2):
-    self.__data[pos1], self.__data[pos2] = self.__data[pos2], self.__data[pos1]
-  # pos부터 minHeap정렬. 자식으로 퍼져나간다.
+
+  # Function to swap two nodes of the heap
+  def swap(self, fpos, spos):
+    self.Heap[fpos], self.Heap[spos] = self.Heap[spos], self.Heap[fpos]
+
+  # Function to heapify the node at pos
   def minimumHeapify(self, pos):
-    if (self.__size and (not self.isLeaf(pos))):
-      leftChildPos = self.leftChid(pos)
-      rightChildPos = self.rightChid(pos)
-      # 부모보다 자식노드가 크다면
-      if (self.__data[leftChildPos] < self.__data[pos] or
-        self.__data[rightChildPos] < self.__data[pos]):
-        # 왼쪽자식보다 더 크면
-        if (self.__data[leftChildPos] < self.__data[pos]):
-          self.swap(leftChildPos, pos)
-          self.minimumHeapify(leftChildPos)
-        # 오른쪽자식보다 더 크면
+    if self.size == 0:
+      return
+
+    # If the node is a non-leaf node and greater
+    # than any of its child
+    if not self.isLeaf(pos):
+      if (self.Heap[pos] > self.Heap[self.leftChild(pos)] or
+        self.Heap[pos] > self.Heap[self.rightChild(pos)]):
+
+        # Swap with the left child and heapify
+        # the left child
+        if self.Heap[self.leftChild(pos)] < self.Heap[self.rightChild(pos)]:
+          self.swap(pos, self.leftChild(pos))
+          self.minimumHeapify(self.leftChild(pos))
+
+        # Swap with the right child and heapify
+        # the right child
         else:
-          self.swap(rightChildPos, pos)
-          self.minimumHeapify(rightChildPos)
+          self.swap(pos, self.rightChild(pos))
+          self.minimumHeapify(self.rightChild(pos))
 
-
+  # Function to insert a node into the heap
   def insert(self, element):
-    if (self.__size >= self.__maxSize):
-      return -1 # maxSize 이상 insert 할 수 없다.
+    if self.size >= self.maxSize :
+      return
+    self.size+= 1
+    self.Heap[self.size] = element
 
-    self.__size += 1
-    # 마지막 리프 다음 자리에 element를 넣고
-    self.__data[self.__size] = element
+    current = self.size
 
-    curPos = self.__size
-    # curPos와 curPos의 parent랑 비교해서 바꿀 수 있을때까지 바꾼다.
-    while( self.__data[curPos] < self.__data[self.parent(curPos)]):
-      self.swap(curPos, self.parent(curPos))
-      curPos = self.parent(curPos)
+    while self.Heap[current] < self.Heap[self.parent(current)]:
+      self.swap(current, self.parent(current))
+      current = self.parent(current)
 
+  # Function to delete and return the minimum
+  # element from the heap
   def delete(self):
-    if (self.__size == 0):
+    if self.size == 0:
       return 0
-    # min은 root
-    min = self.__data[self.__ROOT_NODE_IDX]
-    # max를 root에 대입
-    self.__data[self.__ROOT_NODE_IDX] = self.__data[self.__size]
-    self.__size -= 1
-    self.minimumHeapify(self.__ROOT_NODE_IDX)
 
+    min = self.Heap[self.FRONT]
+    self.Heap[self.FRONT], self.Heap[self.size] = self.Heap[self.size], 0
+    self.size-= 1
+    self.minimumHeapify(self.FRONT)
     return min
+
+  # Function to build the min heap using
+  # the minimumHeapify function
+  def minHeap(self):
+
+    for pos in range(self.size//2, 0, -1):
+      self.minimumHeapify(pos)
+
 
 def solution():
   # 첫줄은 연산개수 N
