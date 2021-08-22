@@ -17,7 +17,7 @@
 
 import sys
 import os
-from queue import PriorityQueue
+import heapq
 
 class Passenger:
   def __init__(self, idx, readyAt, arrivedAt):
@@ -36,10 +36,10 @@ def handleInput():
 def solution():
   max = 10000
   isLeftSide = True
-  lq = PriorityQueue(max)
-  rq = PriorityQueue(max)
+  lq = []
+  rq = []
   onBoarding = []
-  done = PriorityQueue(max)
+  done = []
   qs = {}
   qs[isLeftSide] = lq
   qs[not isLeftSide] = rq
@@ -54,30 +54,30 @@ def solution():
   for i, line in enumerate(lines):
     arrivedAt, side = line.rstrip('\n').split()
     if side == 'left':
-      lq.put((int(arrivedAt), Passenger(i, int(arrivedAt), None)))
+      heapq.heappush(lq, (int(arrivedAt), Passenger(i, int(arrivedAt), None)))
     else:
-      rq.put((int(arrivedAt), Passenger(i, int(arrivedAt), None)))
+      heapq.heappush(rq, (int(arrivedAt), Passenger(i, int(arrivedAt), None)))
 
   # 대기손님 없을때까지 반복
   timestamp = 0
-  while not(lq.empty() and rq.empty()):
+  while not(len(lq) == 0 and len(rq) == 0):
     # 정박장 도착시 손님모두내려주고
     for i, _ in enumerate(onBoarding):
       onBoarding[i].arrivedAt = timestamp
-      done.put((onBoarding[i].idx, onBoarding[i]))
+      heapq.heappush(done, (onBoarding[i].idx, onBoarding[i]))
     onBoarding.clear()
 
-    curFront = qs[isLeftSide].queue[0] if not qs[isLeftSide].empty() else None
-    otherFront = qs[not isLeftSide].queue[0] if not qs[not isLeftSide].empty() else None
+    curFront = qs[isLeftSide][0] if not len(qs[isLeftSide]) == 0 else None
+    otherFront = qs[not isLeftSide][0] if not len(qs[not isLeftSide]) == 0 else None
 
     # 1. 이쪽에 있거나
     if (curFront and curFront[1].readyAt <= timestamp):
       # 태울수 있는만큼 태우고
       count = 0
       while count < M:
-        if qs[isLeftSide].empty() or qs[isLeftSide].queue[0][1].readyAt > timestamp:
+        if len(qs[isLeftSide]) == 0 or qs[isLeftSide][0][1].readyAt > timestamp:
           break
-        onBoarding.append(qs[isLeftSide].get()[1])
+        onBoarding.append(heapq.heappop(qs[isLeftSide])[1])
         count += 1
 
       isLeftSide = not isLeftSide
@@ -93,12 +93,12 @@ def solution():
 
   for i, _ in enumerate(onBoarding):
     onBoarding[i].arrivedAt = timestamp
-    done.put((onBoarding[i].idx, onBoarding[i]))
+    heapq.heappush(done, (onBoarding[i].idx, onBoarding[i]))
   onBoarding.clear()
 
   res = []
-  while not done.empty():
-    res.append(str(done.get()[1].arrivedAt) + '\n')
+  while len(done) != 0:
+    res.append(str(heapq.heappop(done)[1].arrivedAt) + '\n')
 
   print(''.join(res))
 
