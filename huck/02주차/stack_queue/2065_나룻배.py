@@ -1,47 +1,31 @@
+# 정박장에서 손님
+# 배는 정박장 왔다갔다
+# 배는 최대 M(1 ~ 10000)명 태울 수 있다
+# 정박장 이동할때는 t(1 ~ 10000)의 시간 소모
+# 정박장 도착시 손님모두내려주고
+# 정박장에 대기중인 손님이 있다면 오래기다린 순으로 태워줌
+# 정박장에 대기중인 손님이 없다면 손님을 기다림
+# 반대쪽에 먼저 오면 반대쪽으로 이동
+
+# 첫줄에 M,t,N 입력
+# 그 이후 N줄만큼 (정박장 도착시각, 정박장위치) 가 주어짐
+
+# 이때, 입력받은 순서대로 도착 시각 출력
+
+# 입력 순서대로 오래기다린다고 가정해보자
+
+
 import sys
 import os
-from operator import attrgetter
+from queue import PriorityQueue
 
 class Passenger:
-  def __init__(self, idx, readyAt, arriveAt = None):
+  def __init__(self, idx, readyAt, arrivedAt):
     self.idx = idx
     self.readyAt = readyAt
-    self.arriveAt = arriveAt
-  def __repr__(self):
-    return 'idx: {}, readyAt: {}, arriveAt: {}'.format(self.idx, self.readyAt, self.arriveAt)
-
-class Queue:
-  def __init__(self):
-    self.__data = []
-
-  def size(self):
-    return len(self.__data)
-
-  def isEmpty(self):
-    return False if self.size() != 0 else True
-
-  def front(self):
-    if (self.isEmpty()):
-      return None
-    return self.__data[0]
-
-  def rear(self):
-    if (self.isEmpty()):
-      return None
-    return self.__data[-1]
-
-  def enqueue(self, data):
-    self.__data.append(data)
-
-  def dequeue(self):
-    if (self.isEmpty()):
-      return None
-    val = self.__data[0]
-    del self.__data[0]
-    return val
-
-  def sort(self, attrSortBy, isDescending = False):
-    self.__data = sorted(self.__data, key=attrgetter(attrSortBy), reverse=isDescending)
+    self.arrivedAt = arrivedAt
+  def __lt__(self, other):
+    return self.idx < other.idx
 
 def handleInput():
   inputFileSuffix = '_input.txt'
@@ -50,75 +34,71 @@ def handleInput():
   sys.stdin = open(inputFileName, "r")
 
 def solution():
-  lPassengers = Queue()
-  rPassengers = Queue()
-  onBoarding = Queue()
-  done = Queue()
+  max = 10000
+  isLeftSide = True
+  lq = PriorityQueue(max)
+  rq = PriorityQueue(max)
+  onBoarding = []
+  done = PriorityQueue(max)
+  qs = {}
+  qs[isLeftSide] = lq
+  qs[not isLeftSide] = rq
 
   M, t, N = map(int, input().split())
 
   lines = sys.stdin.readlines()
-  for idx, line in enumerate(lines):
-    readyAt, readyFrom = line.rstrip('\n').split()
-    if (readyFrom == 'left'):
-      lPassengers.enqueue(Passenger(idx, int(readyAt)))
+
+  # (우선순위, 아이템)
+  # 우선순위는 대기시작시각
+  # 아이템은 Passenger(idx, 대기시작시각, 도착시각)
+  for i, line in enumerate(lines):
+    arrivedAt, side = line.rstrip('\n').split()
+    if side == 'left':
+      lq.put((int(arrivedAt), Passenger(i, int(arrivedAt), None)))
     else:
-      rPassengers.enqueue(Passenger(idx, int(readyAt)))
+      rq.put((int(arrivedAt), Passenger(i, int(arrivedAt), None)))
 
-  lPassengers.sort('readyAt')
-  rPassengers.sort('readyAt')
-
+  # 대기손님 없을때까지 반복
   timestamp = 0
-  isLeft = True
-  boardingCount = 0
-  all = { isLeft: lPassengers, not isLeft: rPassengers }
-  curPassengers = all[isLeft]
-  # 대기하는사람이 없을때까지 반복
-  while (not (lPassengers.isEmpty() and rPassengers.isEmpty())):
-    # 정박장에 도착하면
+  while not(lq.empty() and rq.empty()):
+    # 정박장 도착시 손님모두내려주고
+    for i, _ in enumerate(onBoarding):
+      onBoarding[i].arrivedAt = timestamp
+      done.put((onBoarding[i].idx, onBoarding[i]))
+    onBoarding.clear()
 
-    # 1. 그 정박장으로 가고자 하는 사람들을 우선 모두 내려준다
-    if (not onBoarding.isEmpty()):
-      boardingCount = 0
-      while (not onBoarding.isEmpty()):
-        p = onBoarding.dequeue()
-        p.arriveAt = timestamp
-        done.enqueue(p)
+    curFront = qs[isLeftSide].queue[0] if not qs[isLeftSide].empty() else None
+    otherFront = qs[not isLeftSide].queue[0] if not qs[not isLeftSide].empty() else None
 
-    # 2. 승선 가능한 사람 있다면
-    if (not curPassengers.isEmpty()):
-      # 가능한 다 태워
-      while (curPassengers.front() and curPassengers.front().readyAt <= timestamp and boardingCount < M):
-        onBoarding.enqueue(curPassengers.dequeue())
-        boardingCount += 1
+    # 1. 이쪽에 있거나
+    if (curFront and curFront[1].readyAt <= timestamp):
+      # 태울수 있는만큼 태우고
+      count = 0
+      while count < M:
+        if qs[isLeftSide].empty() or qs[isLeftSide].queue[0][1].readyAt > timestamp:
+          break
+        onBoarding.append(qs[isLeftSide].get()[1])
+        count += 1
 
-    # 3-1. 한명이라도 탔을때
-    if (boardingCount > 0):
-      # 반대쪽으로
-      isLeft = not isLeft
-      timestamp += t
-      curPassengers = all[isLeft]
-    # 3-2. 아무도 안탔을때
+      isLeftSide = not isLeftSide
+    # 2. 저쪽에 있거나
+    elif (otherFront and otherFront[1].readyAt <= timestamp):
+      isLeftSide = not isLeftSide
+    # 3. 양쪽 다 없거나
+    # (curFront and curFront[1].readyAt > timestamp) and (otherFront and otherFront[1].readyAt > timestamp):
     else:
-      oppsitePassengers = all[not isLeft]
-      # 반대쪽에 있으면 이동
-      if (not oppsitePassengers.isEmpty() and oppsitePassengers.front().readyAt <= timestamp):
-        isLeft = not isLeft
-        timestamp += t
-        curPassengers = all[isLeft]
-      # 반대쪽에 없으면 대기
-      else:
-        timestamp += t
+      continue
 
-  while (not onBoarding.isEmpty()):
-    p = onBoarding.dequeue()
-    p.arriveAt = timestamp
-    done.enqueue(p)
+    timestamp += t
 
-  done.sort('idx')
-  while (not done.isEmpty()):
-    p = done.dequeue()
-    print(p.arriveAt)
+  for i, _ in enumerate(onBoarding):
+    onBoarding[i].arrivedAt = timestamp
+    done.put((onBoarding[i].idx, onBoarding[i]))
+  onBoarding.clear()
+
+  while not done.empty():
+    print(done.get()[1].arrivedAt)
+
 
 if __name__ == "__main__":
   if None != os.getenv('IS_LOCAL'):
