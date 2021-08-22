@@ -96,9 +96,11 @@ def solution():
     done.put((onBoarding[i].idx, onBoarding[i]))
   onBoarding.clear()
 
+  res = []
   while not done.empty():
-    print(done.get()[1].arrivedAt)
+    res.append(str(done.get()[1].arrivedAt) + '\n')
 
+  print(''.join(res))
 
 if __name__ == "__main__":
   if None != os.getenv('IS_LOCAL'):
