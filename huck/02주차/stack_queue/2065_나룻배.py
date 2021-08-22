@@ -87,7 +87,17 @@ def solution():
     # 3. 양쪽 다 없거나
     # (curFront and curFront[1].readyAt > timestamp) and (otherFront and otherFront[1].readyAt > timestamp):
     else:
-      continue
+      # cur과 other 비교해서 timestamp 셋팅
+      if curFront and otherFront:
+        # 둘중에 빠른놈
+        if curFront[1].readyAt > otherFront[1].readyAt:
+          timestamp = otherFront[1].readyAt
+        else:
+          timestamp = curFront[1].readyAt - t
+      elif curFront:
+        timestamp = curFront[1].readyAt - t
+      elif otherFront:
+        timestamp = otherFront[1].readyAt
 
     timestamp += t
 
@@ -99,7 +109,7 @@ def solution():
   res = []
   while len(done) != 0:
     res.append(str(heapq.heappop(done)[1].arrivedAt) + '\n')
-
+  res[-1] = res[-1][:-1]
   print(''.join(res))
 
 if __name__ == "__main__":
