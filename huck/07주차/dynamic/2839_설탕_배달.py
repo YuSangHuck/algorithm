@@ -1,8 +1,6 @@
 import os
 import sys
 
-global dp # dp[index]는 index kg의 최소값
-
 def handleInput():
   suffix = '_input.txt'
   name, ext = os.path.splitext(__file__)
@@ -11,23 +9,26 @@ def handleInput():
   sys.stdin = open(inputFileName, 'r')
 
 def solution(n):
-  global dp
-  for i in range(7, n):
-    num = 1 + i # 1 ~ n
+  res = -1
 
-    j = 1
-    while (j <= num - j):
-      if (dp[j] != -1 and dp[num - j] != -1):
-        sum = dp[j] + dp[num-j]
-        if dp[num] > sum:
-          dp[num] = sum
-      j += 1
+  # 5의 개수 범위
+  max5 = n // 5
 
-  return dp[n]
+  # 5는 max5 ~ 0개
+  for count5 in range(max5, -1, -1):
+    remain = n - (5 * count5)
+    if remain == 0:
+      res = max5
+      break
 
-def init():
-  global dp
-  dp = [-1, -1, -1, 1, -1, 1, 2, -1] + [sys.maxsize] * 4993
+    # 5개수 기반 3 확인
+    if remain % 3 == 0:
+      count3 = remain // 3
+      res = count5 + count3
+      break
+
+  return res
+
 
 if __name__ == '__main__':
   # select stdin
@@ -38,7 +39,6 @@ if __name__ == '__main__':
   tc = int(input())
   for _ in range(tc):
     n = int(input()) # <= 500,000
-    init()
 
     # solution
     print(solution(n))
