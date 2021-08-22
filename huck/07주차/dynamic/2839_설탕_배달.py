@@ -1,7 +1,7 @@
 import os
 import sys
 
-global dp
+global dp # dp[index]는 index kg의 최소값
 
 def handleInput():
   suffix = '_input.txt'
@@ -12,11 +12,10 @@ def handleInput():
 
 def solution(n):
   global dp
-  for i in range(5, n):
+  for i in range(7, n):
     num = 1 + i # 1 ~ n
 
-    dp[num] = sys.maxsize
-    j =1
+    j = 1
     while (j <= num - j):
       if (dp[j] != -1 and dp[num - j] != -1):
         sum = dp[j] + dp[num-j]
@@ -28,7 +27,7 @@ def solution(n):
 
 def init():
   global dp
-  dp = [-1, -1, -1, 1, -1, 1] + [-1] * 4995
+  dp = [-1, -1, -1, 1, -1, 1, 2, -1] + [sys.maxsize] * 4993
 
 if __name__ == '__main__':
   # select stdin
