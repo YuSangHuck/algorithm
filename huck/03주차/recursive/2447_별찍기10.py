@@ -10,23 +10,25 @@
 import os
 import sys
 
-g_resList = []
-
-
 def handleInput():
   suffix = '_input.txt'
   filename, _ = os.path.splitext(__file__)
   sys.stdin = open(filename + suffix, 'r')
 
-def solution(i, j, n):
-  global g_resList
-  if (i // n) % 3 == 1 and (j // n) % 3 == 1:
-    g_resList.append(' ')
-  else:
-    if n // 3 == 0:
-      g_resList.append('*')
-    else:
-      solution(i, j, n//3)
+def solution(n):
+  if n == 1:
+    return ['*']
+
+  arr = solution(n // 3)
+  newArr = list()
+  for i in arr:
+    newArr.append(i * 3)
+  for i in arr:
+    newArr.append(i + ' '*(n//3) + i)
+  for i in arr:
+    newArr.append(i * 3)
+
+  return newArr
 
 if __name__ == '__main__':
   if os.getenv('IS_LOCAL'):
@@ -35,10 +37,4 @@ if __name__ == '__main__':
   # 3^1 ~ 3^7
   n = int(input())
 
-  for i in range(n):
-    for j in range(n):
-      solution(i, j, n)
-    g_resList.append('\n')
-
-  print(g_resList)
-  print(''.join(g_resList))
+  print('\n'.join(solution(n)))
