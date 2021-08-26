@@ -10,6 +10,7 @@
 import os
 import sys
 
+g_resList = []
 
 
 def handleInput():
@@ -17,25 +18,15 @@ def handleInput():
   filename, _ = os.path.splitext(__file__)
   sys.stdin = open(filename + suffix, 'r')
 
-def solution(n):
-  # pattern3[0:3]  # '* * *'
-  # pattern3[4:7]  # '*   *'
-  # pattern3[8:11] # '* * *'
-
-  pattern = '''***
-* *
-***'''
-
-  a = pattern[0*(n+1) : n + 0*(n+1)] # '* * *'
-  b = pattern[1*(n+1) : n + 1*(n+1)] # '*   *'
-  c = pattern[2*(n+1) : n + 2*(n+1)] # '* * *'
-
-  if n == 3:
-    return pattern
-
-  newPattern = solution(n//3)
-
-  return pattern
+def solution(i, j, n):
+  global g_resList
+  if (i // n) % 3 == 1 and (j // n) % 3 == 1:
+    g_resList.append(' ')
+  else:
+    if n // 3 == 0:
+      g_resList.append('*')
+    else:
+      solution(i, j, n//3)
 
 if __name__ == '__main__':
   if os.getenv('IS_LOCAL'):
@@ -44,5 +35,10 @@ if __name__ == '__main__':
   # 3^1 ~ 3^7
   n = int(input())
 
-  print(solution(n))
-  # print(pattern3*2)
+  for i in range(n):
+    for j in range(n):
+      solution(i, j, n)
+    g_resList.append('\n')
+
+  print(g_resList)
+  print(''.join(g_resList))
