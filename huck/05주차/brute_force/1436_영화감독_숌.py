@@ -6,25 +6,13 @@ def handleInput():
   filename, _ = os.path.splitext(__file__)
   sys.stdin = open(filename + suffix)
 
-def isEndNumber(i):
-  res = False
-  # 1자리씩 검사
-  # 1의자리
-  while i != 0:
-    if i % 1000 == 666:
-      res = True
-      break
-
-    i = i // 10
-  return res
-
 def solution(n):
   hitCount = 0
   i = 665
 
   while hitCount != n:
     i += 1
-    if isEndNumber(i):
+    if str(i).find('666') != -1:
       hitCount += 1
 
   return i
