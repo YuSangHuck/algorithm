@@ -1,4 +1,14 @@
 3
+200 zz
 21 Junkyu
 21 Dohyun
 20 Sunyoung
+10 f
+10 e
+10 d
+10 a
+10 b
+10 c
+10 d
+10 e
+10 f
