@@ -13,11 +13,9 @@ def handleInput():
 def sum(tup):
   global score
   res = 0
-  permuList = list(permutations(tup,2))
-  for permu in permuList:
-    # TODO
-    # res += score[permu[0]][permu[1]] + score[permu[1]][permu[0]]
-    res += score[permu[0]][permu[1]]
+  combList = list(combinations(tup,2))
+  for comb in combList:
+    res += score[comb[0]][comb[1]] + score[comb[1]][comb[0]]
 
   return res
 
