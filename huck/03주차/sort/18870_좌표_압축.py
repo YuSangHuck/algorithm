@@ -10,28 +10,20 @@ def handleInput():
 def sol():
   res = []
   _ = sys.stdin.readline()
+  # set의 ordering으 위해서 list[int]가 필요
   xList = list(map(int, sys.stdin.readline().split()))
-  xSet = set(xList)
-  sortedXSet = sorted(xSet)
+  sortedXSet = sorted(set(xList))
 
+  m = {}
 
-  # l 순회
-  # 정렬된 s와 비교하면서 index 찾으면 됨
+  count = 0
+  for sortedX in sortedXSet:
+    m[sortedX] = count
+    count += 1
+
   for x in xList:
-    # print('\t', x)
-    hitCount = 0
-    for sortedX in sortedXSet:
-      # print(sortedX)
-      if x > sortedX:
-        hitCount += 1
-      else:
-        break
-    res.append(str(hitCount))
+    res.append(str(m[x]))
 
-  # print(l)
-  # print(s)
-  # print(sorted(s))
-  # print(res)
   print(' '.join(res))
 
 if __name__ == '__main__':
