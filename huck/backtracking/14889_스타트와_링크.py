@@ -38,10 +38,8 @@ def sol():
     #   if min <= abs(sumA - tempSumB):
     #     break
 
-    s = str.format('sumA: {0}, sumB: {1}', sumA, sumB)
     if min > abs(sumA - sumB):
       min = abs(sumA - sumB)
-      s = str.format('{0}, min: {1}', s, abs(sumA - sumB))
 
   print(min)
 
