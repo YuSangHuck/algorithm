@@ -1,6 +1,3 @@
-# FIXME 조합인데 dfs로 중복된 케이스 제외시켜야 함
-# 일단은 itertool로 풀거
-
 # N개 수열
 # N-1개 연산자
 
@@ -12,7 +9,12 @@
 
 import sys
 import os
-from itertools import combinations, permutations
+
+g_max = -sys.maxsize
+g_min = sys.maxsize
+g_nCount = 0
+g_operandList = []
+g_operatorList = []
 
 def handleInput():
   suffix = '_input.txt'
@@ -20,48 +22,53 @@ def handleInput():
 
   sys.stdin = open(fn + suffix, 'r')
 
-def sol():
-  inputs = sys.stdin.readlines()
-  nCount = int(inputs[0])
-  operandList = list(map(int, inputs[1].rstrip('\n').split()))
-  operatorList = []
-  i = 0
-  for operatorCount in map(int, inputs[2].rstrip('\n').split()):
-    for _ in range(operatorCount):
-      operatorList.append(i)
-    i += 1
+# NOTE dfs depth별 저장해야되는 상태값은 아래와 같다.
+# - min,max 업데이트 시점 확인을 위해 지금까지 사용된 연산자갯수: usedCount
+# - 이전까지의 결과값: res
+# - 이전까지 사용한 연산자 리스트: operatorList
+def dfs(usedCount, res, operatorList):
+  global g_max, g_min, g_nCount, g_operandList, g_operatorList
 
-  # print(operatorList)
+  # 인자 usedCount가 처음 입려받은 nCount와 동일하면
+  if usedCount == g_nCount - 1:
+    # max,min 업데이트
+    g_max = max(g_max, res)
+    g_min = min(g_min, res)
 
-  min = 10**9
-  max = -10**9
-  # FIXME 중복된 경우 있음
-  for comb in permutations(operatorList, len(operatorList)):
-    res = operandList[0]
-    for idx, operand in enumerate(comb):
+  for i in range(4): # 0,1,2,3
+    if operatorList[i]:
+      operatorList[i] -= 1
+      usedCount += 1
+      n = g_operandList[usedCount]
 
-      if operand == 0: # +
-        res = res + operandList[1 + idx]
-
-      elif operand == 1: # -
-        res = res - operandList[1 + idx]
-
-      elif operand == 2: # *
-        res = res * operandList[1 + idx]
-
-      else: # //
+      if i == 0: # +
+        dfs(usedCount, res + n, operatorList)
+      elif i == 1: # -
+        dfs(usedCount, res - n, operatorList)
+      elif i == 2: # *
+        dfs(usedCount, res * n, operatorList)
+      else:
         if res >= 0:
-          res = res // operandList[1 + idx]
+          dfs(usedCount, res // n, operatorList)
         else:
-          # a < 0 => -(-a // b)
-          res = -(-res // operandList[1 + idx])
+          dfs(usedCount, -(abs(res) // n), operatorList)
 
-    if res < min:
-      min = res
-    if res > max:
-      max = res
+      operatorList[i] += 1
+      usedCount -= 1
 
-  print(f'{max}\n{min}')
+
+
+def sol():
+  global g_nCount, g_operandList, g_operatorList, g_max, g_min
+
+  g_nCount = int(sys.stdin.readline())
+  g_operandList = list(map(int, sys.stdin.readline().split()))
+  g_operatorList = list(map(int, sys.stdin.readline().split()))
+
+  dfs(0, g_operandList[0], g_operatorList)
+
+  print(f'{g_max}\n{g_min}')
+
 
 
 if __name__ == '__main__':
