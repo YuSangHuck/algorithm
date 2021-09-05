@@ -25,7 +25,7 @@ def dfs(depth,l):
   for m in range(1, 1 + g_n):
     l.append(m)
     dfs(1 + depth, l)
-    l.remove(m)
+    l = l[0:depth]
 
 def sol():
   global g_n, g_m
