@@ -49,9 +49,8 @@ def promising(xPos, yPos):
   return True
 
 
-def dfs():
+def dfs(row):
   global g_board, g_isEnd, g_candidates
-  print('dfs')
 
   g_isEnd = True
   for x in range(9):
@@ -62,30 +61,33 @@ def dfs():
     printBoard()
     return g_isEnd
 
-  # 모든 x,y 9 by 9 에 대해서
-  for y in range(9):
-    for x in range(9):
-      # 값이 비어있다면
-      if g_board[y][x] == 0:
-        # 1~9를 넣어놓고
-        for candidate in g_candidates:
-          g_board[y][x] = candidate
+  # y는 row로 고정, x만 탐색
+  for x in range(9):
+    # 값이 비어있다면
+    if g_board[row][x] == 0:
+      # 1~9를 넣어놓고
+      for candidate in g_candidates:
+        g_board[row][x] = candidate
 
-          # 유효한지 체크
-          if promising(x, y):
-            # 유효하면 다음 진행
-            dfs()
-            if g_isEnd:
-              return
+        # 유효한지 체크
+        if promising(x, row):
+          # 유효하면 다음 진행
+          if g_board[row].count(0):
+            dfs(row)
           else:
-            # 유효하지않으면 값 초기화
-            g_board[y][x] = 0
+            dfs(row + 1)
+
+          if g_isEnd:
+            return
+        else:
+          # 유효하지않으면 값 초기화
+          g_board[row][x] = 0
 
 def sol():
   global g_board
   g_board = [list(map(int, line.split())) for line in sys.stdin.readlines()]
 
-  dfs()
+  dfs(0)
 
 
 
