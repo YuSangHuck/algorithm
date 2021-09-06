@@ -31,6 +31,12 @@
       ],
       "preLaunchTask": "g++ build active file",
       "miDebuggerPath": "/usr/bin/gdb"
+    },
+    {
+      "type": "java",
+      "name": "java: Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}"
     }
   ]
 }
