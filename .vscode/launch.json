@@ -33,10 +33,22 @@
       "miDebuggerPath": "/usr/bin/gdb"
     },
     {
+      "name": "Java: Current File",
       "type": "java",
-      "name": "java: Launch Current File",
       "request": "launch",
       "mainClass": "${file}"
-    }
+    },
+    {
+      "name": "Go: Current File",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${file}",
+      // "program": "${fileDirname}",
+      // "program": "${workspaceFolder}/main.go",
+      "env": {},
+      "args": [],
+      // "output": "${workspaceFolder}/localTester.exe"
+    },
   ]
 }
