@@ -46,7 +46,9 @@
       "program": "${file}",
       // "program": "${fileDirname}",
       // "program": "${workspaceFolder}/main.go",
-      "env": {},
+      "env": {
+        "IS_LOCAL": "true"
+      },
       "args": [],
       // "output": "${workspaceFolder}/localTester.exe"
     },
