@@ -17,16 +17,22 @@
 # 1
 # 11
 
-
-import string
-
-tmp = string.digits+string.ascii_lowercase
 def convert(num, base) :
-  q, r = divmod(num, base)
-  if q == 0 :
-    return tmp[r]
-  else :
-    return convert(q, base) + tmp[r]
+  q = num
+  r = 0
+  result = ''
+  l = []
+
+  while q != 0:
+    r = q % base
+    l.append(str(r))
+    q //= base
+
+  result = ''.join(l)[::-1]
+  while result[0] == 0:
+    result = result[1:]
+
+  return result
 
 
 def isPrimeNumber(n):
