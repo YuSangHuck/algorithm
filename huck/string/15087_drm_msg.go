@@ -21,23 +21,25 @@ func divide(originStr []byte) [][]byte {
 	return divided
 }
 
-func rotate(str []byte) []byte {
+func rotateChar(str []byte, pos int, rotationVal byte) {
+	newValue := (str[pos]-65+rotationVal)%26 + 65
+	copy(str[pos:], string(newValue))
+}
+func rotateStr(str []byte) []byte {
 	var rotationVal byte
 	for _, v := range str {
 		rotationVal += v - 65
 	}
 
-	for i, v := range str {
-		pos := (v-65+rotationVal)%26 + 65
-		copy(str[i:], string(pos))
+	for i := range str {
+		rotateChar(str, i, rotationVal)
 	}
 	return str
 }
 
 func merge(charStr []byte, rotateValue []byte) []byte {
 	for i := 0; i < len(rotateValue); i++ {
-		pos := (charStr[i]-65+rotateValue[i]-65)%26 + 65
-		copy(charStr[i:], string(pos))
+		rotateChar(charStr, i, rotateValue[i]-65)
 	}
 	return charStr
 }
@@ -54,12 +56,12 @@ func sol() {
 	// rotate
 	rotatedList := [][]byte{}
 	for i := range dividedByteList {
-		rotatedList = append(rotatedList, rotate(dividedByteList[i]))
+		rotatedList = append(rotatedList, rotateStr(dividedByteList[i]))
 	}
 
 	// merge
 	res := merge(rotatedList[0], rotatedList[1])
-	fmt.Print(string(res))
+	fmt.Fprint(w, string(res))
 }
 
 func main() {
