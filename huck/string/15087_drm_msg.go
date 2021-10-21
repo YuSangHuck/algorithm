@@ -14,54 +14,39 @@ func setStdin() {
 	os.Stdin, _ = os.Open(rel[0:len(rel)-len(".go")] + "_input.txt")
 }
 
-func divide(originStr []byte) [][]byte {
-	half := len(originStr) / 2
-	divided := [][]byte{originStr[0:half], originStr[half:]}
-
-	return divided
-}
-
-func rotateChar(str []byte, pos int, rotationVal byte) {
-	newValue := (str[pos]-65+rotationVal)%26 + 65
-	copy(str[pos:], string(newValue))
-}
-func rotateStr(str []byte) []byte {
-	var rotationVal byte
-	for _, v := range str {
-		rotationVal += v - 65
-	}
-
-	for i := range str {
-		rotateChar(str, i, rotationVal)
-	}
-	return str
-}
-
-func merge(charStr []byte, rotateValue []byte) []byte {
-	for i := 0; i < len(rotateValue); i++ {
-		rotateChar(charStr, i, rotateValue[i]-65)
-	}
-	return charStr
-}
-
 func sol() {
 	r, w := bufio.NewReader(os.Stdin), bufio.NewWriter(os.Stdout)
 	defer w.Flush()
 
-	var s []byte
+	var s string
 	fmt.Fscanf(r, "%s\n", &s)
+
+	size := len(s)
+	rotationValueLower, rotationValueUpper := 0, 0
 	// divide
-	dividedByteList := divide(s)
+	for i := 0; i < size/2; i++ {
+		rotationValueLower += int(s[i] - 'A')
+	}
+	for i := size / 2; i < size; i++ {
+		rotationValueUpper += int(s[i] - 'A')
+	}
 
 	// rotate
-	rotatedList := [][]byte{}
-	for i := range dividedByteList {
-		rotatedList = append(rotatedList, rotateStr(dividedByteList[i]))
+	rotatedLower, rotatedUpper := [150005]int{}, [150005]int{}
+	for i := 0; i < size/2; i++ {
+		rotatedLower[i] = (int(s[i]-'A') + rotationValueLower) % 26
+	}
+	for i := size / 2; i < size; i++ {
+		rotatedUpper[i-size/2] = (int(s[i]-'A') + rotationValueUpper) % 26
 	}
 
 	// merge
-	res := merge(rotatedList[0], rotatedList[1])
-	fmt.Fprint(w, string(res))
+	merged := []byte{}
+	for i := 0; i < size/2; i++ {
+		merged = append(merged, byte('A'+((rotatedLower[i]+rotatedUpper[i])%26)))
+	}
+
+	fmt.Fprint(w, string(merged))
 }
 
 func main() {
