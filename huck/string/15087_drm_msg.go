@@ -32,7 +32,7 @@ func sol() {
 	}
 
 	// rotate
-	rotatedLower, rotatedUpper := [150005]int{}, [150005]int{}
+	rotatedLower, rotatedUpper := [7501]int{}, [7501]int{}
 	for i := 0; i < size/2; i++ {
 		rotatedLower[i] = (int(s[i]-'A') + rotationValueLower) % 26
 	}
