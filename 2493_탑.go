@@ -28,8 +28,8 @@ func sol() {
 
 	line, _ := r.ReadString('\n')
 	s_tops := strings.Fields(line) // 0부터 시작
-	n_tops := [500001]int{}
-	var res []int
+	n_tops := [500001]int{}        // 1부터 시작
+	var res [500001]string
 	for i := 0; i < n; i++ {
 		n_tops[1+i], _ = strconv.Atoi(s_tops[i])
 	}
@@ -39,21 +39,18 @@ func sol() {
 		for j := i - 1; j > 0; j-- {
 			// 수신하면
 			if n_tops[j] >= n_tops[i] {
-				res = append(res, j)
+				res[i-1] = strconv.Itoa(j)
 				break
 			}
 			if j == 1 {
-				res = append(res, 0)
+				res[i-1] = "0"
 			}
 		}
 	}
 	// 제일 왼쪽거 1개
-	res = append(res, 0)
+	res[0] = "0"
 
-	for i := range res {
-		// 역순으로
-		fmt.Fprintf(w, "%d ", res[n-i-1])
-	}
+	fmt.Fprint(w, strings.Join(res[:n], " "))
 
 }
 
