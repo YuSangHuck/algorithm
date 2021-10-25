@@ -34,7 +34,7 @@ func sol() {
 		n_tops[i], _ = strconv.Atoi(s_tops[i])
 
 		res[i] = "0"
-		for j := i - 1; j > 0; j-- {
+		for j := i - 1; j >= 0; j-- {
 			// 수신하면
 			if n_tops[j] >= n_tops[i] {
 				res[i] = strconv.Itoa(1 + j)
