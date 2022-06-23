@@ -9,14 +9,22 @@ public class _0210_peak {
 
     public int solution(int n, int[][] arr) {
         int answer = 0;
+        int[] dx = {-1, 0, 1, 0}; // 좌,상,우,하
+        int[] dy = {0, -1, 0, 1};
         for (int i = 1; i < n + 2; i++) {
             for (int j = 1; j < n + 2; j++) {
-                if (arr[i][j] > arr[i - 1][j] &&
-                        arr[i][j] > arr[i + 1][j] &&
-                        arr[i][j] > arr[i][j - 1] &&
-                        arr[i][j] > arr[i][j + 1]) {
-                    answer++;
+                boolean flag = true;
+                for (int k = 0; k < 4; k++) {
+                    int nx = i + dx[k];
+                    int ny = j + dy[k];
 
+                    if (arr[nx][ny] >= arr[i][j]) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    answer++;
                 }
 
             }
