@@ -14,15 +14,12 @@ public class _0306_maxLengthContinuousSequence {
         int changeCnt = 0;
         for (int rt = 0; rt < n; rt++) {
 //            1. rt기반 0체크. 참이면 changeCnt++
-//            2. changeCnt > k인지 체크. 참이면 answer에 max(answer, rt - lt)
-//            1. changeCnt > k면 무한루프
+//            2. changeCnt > k면 무한루프
 //                1. lt기반 0체크. 참이면 changeCnt--
 //                2. lt++
+//            3. answer에 max(answer, rt - lt + 1)
             if (arr[rt] == 0) {
                 changeCnt++;
-            }
-            if (changeCnt > k) {
-                answer = Math.max(answer, rt - lt);
             }
             while (changeCnt > k) {
                 if (arr[lt] == 0) {
@@ -30,6 +27,7 @@ public class _0306_maxLengthContinuousSequence {
                 }
                 lt++;
             }
+            answer = Math.max(answer, rt - lt + 1);
         }
         return answer;
     }
