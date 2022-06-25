@@ -45,16 +45,28 @@
 ## array
 
 - ArrayList vs array
-  - 가변
+  - 사이즈가 가변
     - ArrayList arr
       - add
+  - 사이즈가 불변
     - int[] arr
       - arr[idx]
 - void Arrays.sort(int[] a);
 
 ## 반복문
 
-- loop 횟수가 정해져있으면
+- loop 횟수가 고정
   - for
-- 안정해져있으면
+- loop 횟수가 미정
   - while
+
+## twoPointer_slidingWindow
+
+- twoPointer 포인터 변수명
+  - 하나의 배열에서
+    - lt, rt
+  - n개의 배열에서
+    - p1, p2, ...
+- slidingWindow
+  - 윈도우 크기가 m이면
+  - 이전값 + arr[i] - arr[i-m]
