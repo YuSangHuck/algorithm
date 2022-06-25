@@ -44,7 +44,17 @@
 
 ## array
 
-- ArrayList arr
-  - add
-- int[] arr
-  - arr[idx]
+- ArrayList vs array
+  - 가변
+    - ArrayList arr
+      - add
+    - int[] arr
+      - arr[idx]
+- void Arrays.sort(int[] a);
+
+## 반복문
+
+- loop 횟수가 정해져있으면
+  - for
+- 안정해져있으면
+  - while
