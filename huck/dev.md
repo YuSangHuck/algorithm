@@ -60,7 +60,8 @@
 - loop 횟수가 미정
   - while
 
-## twoPointer_slidingWindow
+## twoPointer_slidingWindow // 이거는 다시 한번 볼것 or 추가문제 더 풀어볼것
+> 효율성 : O(n^2)-->O(n)
 
 - twoPointer 포인터 변수명
   - 하나의 배열에서
@@ -70,3 +71,29 @@
 - slidingWindow
   - 윈도우 크기가 m이면
   - 이전값 + arr[i] - arr[i-m]
+
+## hashMap_treeSet
+> 해쉬, 정렬지원 Set
+
+- HashMap // hm // O(1)로 접근하기 위함
+  - E get(key)
+  - E getOrDefault(key, defaultValue)
+  - Set<E> keySet()
+  - boolean containsKey(key)
+  - size() // return sizeOfKeys // 당연하게도 특정 key의 value가 0이라면 이것도 count함 
+  - remove(key)
+  - equal(hashMap) // key와 key에 걸린 value까지 전부 체크해서 return
+    - `value가 primitive가 아니면? 주소는 다르지만 값은 같은 클래스같은경우`
+- TreeSet // ts // rbt기반의 set. 중복제거 + 정렬
+  - new TreeSet<>(Collections.reverseOrder()) // Desc
+  - add
+  - remove
+  - size
+  - first
+  - last
+- 팁
+  - hm에 길이가 k인 문자열의 각 문자를 key로 넣는 상황이라면 loop 전에 k-1개를 우선 hm에 셋해주면 편하다
+  - HashMap // 탐색[O(1)]
+  - Set // 중복제거
+  - TreeSet // 중복제거 + 정렬
+  - TreeMap // 탐색[rbt이므로 O(logN)] + 정렬.
