@@ -33,12 +33,16 @@ public class 오픈채팅방 {
         String[] answer = new String[actionLogList.size()];
 
         for (int i = 0; i < actionLogList.size(); i++) {
+            StringBuilder sb = new StringBuilder();
             String[] splits = actionLogList.get(i).split(" ");
             String uid = splits[0];
             String action = splits[1];
 //            Prodo 들어왔습니다, Ryan 들어왔습니다, Prodo 나갔습니다, Prodo 들어왔습니다
 //            Prodo님이 들어왔습니다
-            answer[i] = nicknameMap.get(uid) + "님이 " + actionDefineMap.get(action);
+            sb.append(nicknameMap.get(uid));
+            sb.append("님이 ");
+            sb.append(actionDefineMap.get(action));
+            answer[i] = sb.toString();
         }
 
         return answer;
@@ -64,14 +68,14 @@ public class 오픈채팅방 {
         }
 
 
-        double[] times = new double[]{9.61, 8.77, 8.73, 11.40, 12.68, 13.78, 15.05, 14.38, 13.03, 14.31, 11.62, 16.87, 13.81, 15.89, 10.33, 11.06, 9.90, 9.23, 12.57, 14.39, 12.07, 11.90, 12.98, 12.74, 148.14, 155.91, 145.34, 139.70, 205.01, 127.40, 141.64, 116.56};
-        double[] memories = new double[]{72.8, 67.5, 75.5, 77.2, 81.7, 84.1, 82.8, 83.4, 86.8, 79.4, 80.9, 84.5, 79.3, 85.7, 74.3, 77.4, 80.6, 78.7, 79.7, 81.8, 77, 83.1, 80.2, 74.3, 176, 160, 168, 168, 171, 164, 154, 171};
+        double[] times = new double[]{8.53, 9.02, 8.72, 9.28, 14.02, 12.71, 16.52, 13.27, 13.25, 14.17, 14.53, 11.82, 12.30, 13.35, 10.21, 8.56, 11.25, 8.99, 13.44, 12.07, 12.36, 11.63, 15.72, 12.92, 126.04, 135.64, 143.67, 131.11, 130.61, 111.94, 132.95, 109.49};
+        double[] memories = new double[]{73.8, 77.4, 78.8, 82.3, 89.1, 88.7, 86, 96.8, 82.2, 92.1, 88.9, 74.7, 87.5, 77.9, 78.3, 80.6, 80.8, 79, 91.7, 87.8, 85.2, 77.2, 77.2, 73.3, 189, 179, 178, 186, 174, 165, 183, 174};
         double sumTimes = 0, sumMemories = 0;
         for (int i = 0; i < times.length; i++) {
             sumTimes += times[i];
             sumMemories += memories[i];
         }
-        System.out.println("avg time = " + sumTimes / times.length); // 47ms
-        System.out.println("avg memories = " + sumMemories / times.length); // 102MB
+        System.out.println("avg time = " + sumTimes / times.length); // 41ms
+        System.out.println("avg memories = " + sumMemories / times.length); // 106MB
     }
 }
