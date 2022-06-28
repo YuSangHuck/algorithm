@@ -32,8 +32,9 @@ public class 오픈채팅방 {
         }
         String[] answer = new String[actionLogList.size()];
 
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < actionLogList.size(); i++) {
-            StringBuilder sb = new StringBuilder();
+            sb.delete(0, sb.length());
             String[] splits = actionLogList.get(i).split(" ");
             String uid = splits[0];
             String action = splits[1];
@@ -68,14 +69,14 @@ public class 오픈채팅방 {
         }
 
 
-        double[] times = new double[]{8.53, 9.02, 8.72, 9.28, 14.02, 12.71, 16.52, 13.27, 13.25, 14.17, 14.53, 11.82, 12.30, 13.35, 10.21, 8.56, 11.25, 8.99, 13.44, 12.07, 12.36, 11.63, 15.72, 12.92, 126.04, 135.64, 143.67, 131.11, 130.61, 111.94, 132.95, 109.49};
-        double[] memories = new double[]{73.8, 77.4, 78.8, 82.3, 89.1, 88.7, 86, 96.8, 82.2, 92.1, 88.9, 74.7, 87.5, 77.9, 78.3, 80.6, 80.8, 79, 91.7, 87.8, 85.2, 77.2, 77.2, 73.3, 189, 179, 178, 186, 174, 165, 183, 174};
+        double[] times = new double[]{8.48, 8.63, 9.87, 8.55, 13.32, 12.84, 12.77, 12.37, 14.26, 12.75, 11.90, 12.72, 13.35, 13.18, 8.25, 8.40, 9.10, 9.31, 15.77, 11.58, 12.12, 12.49, 12.95, 13.25, 118.86, 134.32, 139.14, 135.77, 129.57, 119.55, 121.42, 112.38};
+        double[] memories = new double[]{85.6, 76, 89.8, 77.8, 86.1, 82.5, 84.2, 82.6, 84.5, 86.6, 82, 80, 76.1, 85.8, 79, 77.4, 77.9, 78.4, 82, 86.2, 76, 92.9, 81.5, 97.7, 174, 185, 175, 185, 195, 186, 177, 183};
         double sumTimes = 0, sumMemories = 0;
         for (int i = 0; i < times.length; i++) {
             sumTimes += times[i];
             sumMemories += memories[i];
         }
         System.out.println("avg time = " + sumTimes / times.length); // 41ms
-        System.out.println("avg memories = " + sumMemories / times.length); // 106MB
+        System.out.println("avg memories = " + sumMemories / times.length); // 108MB
     }
 }
