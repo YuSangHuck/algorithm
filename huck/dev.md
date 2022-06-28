@@ -97,3 +97,163 @@
   - Set // 중복제거
   - TreeSet // 중복제거 + 정렬
   - TreeMap // 탐색[rbt이므로 O(logN)] + 정렬.
+
+## regex
+
+### character class
+
+> 문자 집합
+
+- character set
+  - [aeiou]
+  - 집합에 `포함된` 문자외 매칭
+  - string = "gl`i`b j`o`cks"
+    - matches: 2
+- negated set
+  - [^aeiou]
+  - 집합에 `포함안된` 문자외 매칭
+  - string = "`g``l`i`b`` ``j`o`c``k``s`"
+    - matches: 8
+- dot
+  - .
+  - `개행 제외` 모든 문자와 매칭
+  - [^\n\r]와 동일하다
+  - string = "`g``l``i``b`` ``j``o``c``k``s`"
+    - matches: 10
+- match any
+  - [\s\S]
+  - `개행 포함` 모든 문자와 매칭
+  - string = "`g``l``i``b`` ``j``o``c``k``s`"
+    - matches: 10
+- word
+  - \w
+  - [A-Za-z0-9_]와 동일  
+  - string = "`g``l``i``b` `j``o``c``k``s`"
+    - matches: 9
+- not word
+  - \W
+  - [^A-Za-z0-9_]와 동일
+  - string = "glib` `jocks"
+    - matches: 1
+- digit
+  - \d
+  - string = "glib jocks`1``2`"
+    - matches: 2
+- not digit
+  - \D
+  - string = "`g``l``i``b`` ``j``o``c``k``s`12"
+    - matches: 10
+- whitespace
+  - \s
+  - string = "glib` `jocks"
+    - matches: 1
+- not whitespace
+  - \S
+  - string = "`g``l``i``b` `j``o``c``k``s`"
+    - matches: 9
+
+### anchor
+
+> 문자열 내에서 특정 positon 조건
+
+- beginning
+  - ^
+  - 문자열의 `시작부분과` 매칭
+  - regex = "^\w+", string = "`she` sells seashells"
+    - matches: 1
+  - regex = "^\w", string = "`s`he sells seashells"
+    - matches: 1
+- end
+  - $
+  - 문자열의 `끝부분과` 매칭
+  - regex = "\w+$", string = "she sells `seashells`"
+    - matches: 1
+  - regex = "\w$", string = "she sells seashell`s`"
+    - matches: 1
+- [word boundary](https://ohgyun.com/392)
+  - \b
+  - 단어의 경계에 해단되는 위치와 매칭
+  - 단어의 경계
+    - between character, non-word character
+    - position(start / end of string)
+  - regex = "s\b", string = "she sell`s` seashell`s`"
+    - matches: 2
+  - regex = "\w\b", string = "sh`e` sell`s` seashell`s`"
+    - matches: 3
+  - regex = "\w+\b", string = "`she` `sells` `seashells`"
+    - matches: 3
+- not word boundary
+  - \B
+  - 단어가 아닌 경계에 해단되는 위치와 매칭
+  - regex = "s\B", string = "`s`he `s`ells `s`ea`s`hells"
+    - matches: 4
+  - regex = "\w\B", string = "`s``h`e `s``e``l``l`s `s``e``a``s``h``e``l``l`s"
+    - matches: 14
+  - regex = "\w+\b", string = "`sh`e `sell`s `seashell`s"
+    - matches: 3
+
+### Escaped characters
+
+> 특별한 문자들
+
+- reserved characters
+  - +*?^$\.[]{}()|/
+  - \+, \*, ...
+- octal escape
+  - \251 == ©
+- hex escape
+  - \xa9 == ©
+- unicode escape
+  - \u00A9 == ©
+- tab
+  - \t
+- line feed
+  - \n
+- vertical tab
+  - \v
+- form feed
+  - \f
+- carriage return
+  - \r
+- null
+  - \0
+
+### Group & References
+
+> 그룹을 사용하면 토큰 시퀀스를 결합하여 함께 작동할 수 있습니다.
+> 캡처 그룹은 역참조로 참조할 수 있으며 결과에서 별도로 액세스할 수 있습니다.
+> 이해안됨
+
+- [capturing group](https://blog.rhostem.com/posts/2018-11-11-regex-capture-group)
+  - (ABC)
+  - 여러 토큰을 함께 그룹화하고 `하위 문자열을 추출`하거나 `역참조를 사용`하기 위한 `캡처 그룹`을 만듭니다.
+  - regex validation을 위한 test에서는 동일한 결과
+  - regex = "(ha)", string = "`ha``ha``ha` `ha`a `ha`h!"
+    - matches: 5
+  - regex = "(ha)+", string = "`hahaha` `ha`a `ha`h!"
+    - matches: 3
+- non-capturing group
+  - (?:ABC)
+  - capturing group 없이 여러 토큰을 함께 그룹화
+  - regex validation을 위한 test에서는 동일한 결과
+  - regex = "(?:ha)+", string = "`hahaha` `ha`a `ha`h!"
+    - matches: 3
+
+### lookaround
+
+> 둘러보기를 사용하면 결과에 포함하지 않고 기본 패턴 이전(lookbehind) 또는 이후(lookahead) 그룹을 일치시킬 수 있습니다. 
+> 네거티브 룩어라운드는 패턴 전후에 일치할 수 없는 그룹을 지정합니다.
+> main pattern, lookaround, positive||negative
+
+- positive lookahead
+  - (`?=`ABC)
+  - regex = "\d(?=px)", string = "1pt `2`px 3em `4`px"
+    - matches: 2
+- negative lookahead
+  - (`?!`ABC)
+  - regex = "\d(?!px)", string = "`1`pt 2px `3`em 4px"
+    - matches: 2
+- positive lookbehind
+  - (`?<=`ABC)
+- negative lookbehind
+  - (`?<!`ABC)
