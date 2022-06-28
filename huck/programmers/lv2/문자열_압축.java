@@ -7,7 +7,7 @@ public class 문자열_압축 {
 //        string을 k길이로 잘라서 압축했을때, 결과가 가장 짧은것
 //        단, k는 1 ~ str.length()
         for (int k = 1; k <= s.length() / 2; k++) {
-            String compressed = "";
+            StringBuilder compressed = new StringBuilder();
             int cnt = 1;
             int p1 = 0;
 
@@ -19,9 +19,9 @@ public class 문자열_압축 {
                     cnt++;
                 } else {
                     if (cnt == 1) {
-                        compressed = compressed + prevSubString;
+                        compressed.append(prevSubString);
                     } else {
-                        compressed = compressed + cnt + prevSubString;
+                        compressed.append(cnt).append(prevSubString);
                     }
                     cnt = 1;
                 }
@@ -29,12 +29,12 @@ public class 문자열_압축 {
                 p1 += k;
             }
             if (cnt == 1) {
-                compressed = compressed + prevSubString;
+                compressed.append(prevSubString);
             } else {
-                compressed = compressed + cnt + prevSubString;
+                compressed.append(cnt).append(prevSubString);
             }
 
-            compressed += s.substring(p1);
+            compressed.append(s.substring(p1));
 //            System.out.println("k = " + k + ", compressed = " + compressed);
 
             answer = Math.min(compressed.length(), answer);
@@ -68,14 +68,14 @@ public class 문자열_압축 {
             }
         }
 
-//        double[] times = new double[]{12.60, 13.69, 13.18, 12.38, 0.01, 11.91, 16.55, 13.57, 14.16, 16.54, 12.02, 12.59, 16.45, 19.41, 13.27, 1.07, 20.84, 13.92, 16.72, 17.21, 16.28, 17.46, 23.58, 22.54, 18.54, 17.47, 23.32, 11.89};
-//        double[] memories = new double[]{78.5, 80.4, 77.6, 74.5, 74.9, 79.8, 86.4, 80.6, 84.4, 80.8, 75.1, 74.3, 75.9, 84.1, 76.5, 74.6, 75.7, 76.3, 89.2, 80.8, 79.4, 79.7, 84, 86.6, 83.8, 85.9, 84.3, 75};
+//        double[] times = new double[]{0.09, 0.54, 0.18, 0.06, 0.01, 0.06, 0.37, 0.35, 0.81, 2.39, 0.11, 0.10, 0.11, 0.53, 0.11, 0.04, 1.02, 0.87, 0.95, 2.52, 2.48, 3.26, 2.35, 2.22, 2.49, 2.40, 2.40, 0.05};
+//        double[] memories = new double[]{75.6, 73.5, 74.5, 74, 75.5, 67.8, 73.2, 70.6, 77.4, 77, 73.6, 75, 73.1, 76.4, 72.1, 73.8, 72.9, 73.9, 70.7, 74.1, 76.6, 80.4, 73.7, 77.1, 79.4, 76.3, 75.6, 74.4};
 //        double sumTimes = 0, sumMemories = 0;
 //        for (int i = 0; i < times.length; i++) {
 //            sumTimes += times[i];
 //            sumMemories += memories[i];
 //        }
-//        System.out.println("avg time = " + sumTimes / times.length); // 15ms
-//        System.out.println("avg memories = " + sumMemories / times.length); // 80MB
+//        System.out.println("avg time = " + sumTimes / times.length); // 1ms
+//        System.out.println("avg memories = " + sumMemories / times.length); // 75MB
     }
 }
