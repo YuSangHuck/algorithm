@@ -1,64 +1,68 @@
 package huck.programmers.lv3;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 public class 추석_트래픽 {
-    //        2016-09-15 hh:mm:ss.sss
-    int getMilliseconds(String date, String time) {
-        String[] split = time.split(":");
+    //    "2016-09-15 01:00:04.001 2.0s"
+    private int[] timestampToMilliseconds(String timestamp) {
+        String[] splits = timestamp.split(" "); // ["2016-09-15, 01:00:04.001, 2.0s"]
+        // "2016-09-15"
+        String endAt = splits[1]; // "01:00:04.001"
+        String substring = splits[2].substring(0, splits[2].length() - 1); // "2.0"
+        int duration = (int) (Double.parseDouble(substring) * 1000);// 2000
+
+        String[] split = endAt.split(":");
         String hh = split[0]; // hh
         String mm = split[1]; // mm
         String ss_sss = split[2]; // ss.sss
         int convertMinutes = (int) TimeUnit.MILLISECONDS.convert(Integer.parseInt(mm), TimeUnit.MINUTES);
         int convertHours = (int) TimeUnit.MILLISECONDS.convert(Integer.parseInt(hh), TimeUnit.HOURS);
-        int convertSeconds = getMilliSecondsFromSeconds(ss_sss);
+        int convertSeconds = (int) (Double.parseDouble(ss_sss) * 1000);// 2000
 
-        return convertHours + convertMinutes + convertSeconds;
-    }
-
-    private int getMilliSecondsFromSeconds(String ss_sss) {
-        return (int) (Double.parseDouble(ss_sss) * 1000);
+        int endAtMs = convertHours + convertMinutes + convertSeconds;
+        int startAtMs = endAtMs - duration + 1; // endAt - processingTime
+        return new int[]{startAtMs, endAtMs};
     }
 
     public int solution(String[] lines) {
 //        System.out.println("lines = " + Arrays.deepToString(lines));
         int answer = Integer.MIN_VALUE;
 
-        int[] startAtList = new int[lines.length];
-        int[] endAtList = new int[lines.length];
+        ArrayList<Integer> checkPoints = new ArrayList<>();
 
+//        동시처리량이 변화하는 point는 각 요청의 시작과 끝
+//        즉,  모든 요청의 시작과 끝만 검사하면 됨
+//        loop를 위해 모든 요청을 flat하게 변환
+        for (String line : lines) {
+            int[] ints = timestampToMilliseconds(line);
 
-        for (int i = 0; i < lines.length; i++) {
-            String[] splits = lines[i].split(" "); // "2016-09-15 01:00:04.001 2.0s"
-            String date = splits[0]; // "2016-09-15"
-            String endAt = splits[1]; // "01:00:04.001"
-            String substring = splits[2].substring(0, splits[2].length() - 1); // "2.0"
-            int duration = getMilliSecondsFromSeconds(substring); // 2000
-
-            endAtList[i] = getMilliseconds(date, endAt); // endAt
-            startAtList[i] = endAtList[i] - duration + 1; // endAt - processingTime
+            checkPoints.add(ints[0]);
+            checkPoints.add(ints[1]);
         }
 
+//        flatten된걸 오름차순으로 sort
+        Collections.sort(checkPoints);
 
-//        1. 1초 구간 설정. start의 최소값은 알수 없고, 최대값은 endAtList의 마지막값이다
-//            설정된 구간은 시작과 끝을 포함하므로 start ~ start+999이다
-//            즉, 설정된 구간 interval은 start ~ start+999이다
+        for (Integer sCheck : checkPoints) {
+//            검사지점은 sCheck ~ eCheck
+            int eCheck = sCheck + 999;
 
-//         20:59:59.300
-//        start가  20:59:58.233보다 조금 더 작을때
-        for (int end = endAtList[0]; end <= endAtList[lines.length - 1]; end++) {
-            int start = end - 999;
-            int idx = 0;
+//            모든 로그에 대해서 start, end 체크
             int cnt = 0;
-            while (idx < lines.length) {
-                if (start <= endAtList[idx] &&
-                        end >= startAtList[idx]) {
+            for (String line : lines) {
+                int[] log = timestampToMilliseconds(line);
+                int sLog = log[0];
+                int eLog = log[1];
+
+                if (sLog <= eCheck && eLog >= sCheck) {
                     cnt++;
                 }
-                idx++;
             }
             answer = Math.max(answer, cnt);
         }
+
 
         return answer;
     }
@@ -103,15 +107,14 @@ public class 추석_트래픽 {
             }
         }
 
-
-//        double[] times = new double[]{8.48, 8.63, 9.87, 8.55, 13.32, 12.84, 12.77, 12.37, 14.26, 12.75, 11.90, 12.72, 13.35, 13.18, 8.25, 8.40, 9.10, 9.31, 15.77, 11.58, 12.12, 12.49, 12.95, 13.25, 118.86, 134.32, 139.14, 135.77, 129.57, 119.55, 121.42, 112.38};
-//        double[] memories = new double[]{85.6, 76, 89.8, 77.8, 86.1, 82.5, 84.2, 82.6, 84.5, 86.6, 82, 80, 76.1, 85.8, 79, 77.4, 77.9, 78.4, 82, 86.2, 76, 92.9, 81.5, 97.7, 174, 185, 175, 185, 195, 186, 177, 183};
+//        double[] times = new double[]{3.58, 820.94, 832.49, 1.42, 32.25, 32.53, 785.66, 805.17, 35.11, 2.75, 3.23, 924.94, 47.80, 1.84, 1.20, 1.28, 1.26, 2811.76, 2822.22, 2722.07, 1.19, 1.16};
+//        double[] memories = new double[]{76, 385, 396, 76.1, 104, 107, 399, 403, 98, 78.6, 77.7, 390, 102, 80.7, 80.7, 74.3, 71, 391, 395, 384, 74.6, 74.4};
 //        double sumTimes = 0, sumMemories = 0;
 //        for (int i = 0; i < times.length; i++) {
 //            sumTimes += times[i];
 //            sumMemories += memories[i];
 //        }
-//        System.out.println("avg time = " + sumTimes / times.length); // 41ms
-//        System.out.println("avg memories = " + sumMemories / times.length); // 108MB
+//        System.out.println("avg time = " + sumTimes / times.length); // 577ms
+//        System.out.println("avg memories = " + sumMemories / times.length); // 197MB
     }
 }
