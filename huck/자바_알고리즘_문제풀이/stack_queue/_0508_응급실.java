@@ -5,27 +5,52 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+class Person {
+    private int id;
+    private int priority;
+
+    public Person(int id, int priority) {
+        this.id = id;
+        this.priority = priority;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+}
+
 //public class Main {
 public class _0508_응급실 {
-    private int solution(int n, int m, Integer[] arr) {
-//        1. 정렬 전 중복 카운트
-        int v = arr[m];
-        int cnt = 0;
-        for (int i = 0; i <= m; i++) {
-            if (arr[i] == v) {
-                cnt++;
+    private int solution(int n, int m, int[] arr) {
+        int answer = 0;
+        Queue<Person> q = new LinkedList<>();
+        for (int i = 0; i < n; i++) {
+            q.offer(new Person(i, arr[i]));
+        }
+
+        while (!q.isEmpty()) {
+//            진료받을놈 poll
+            Person poll = q.poll();
+//            대기중인놈 person
+            for (Person person : q) {
+                if (poll.getPriority() < person.getPriority()) {
+                    q.offer(poll);
+                    poll = null;
+                    break;
+                }
+            }
+            if (poll != null) {
+                answer++;
+                if (poll.getId() == m) {
+                    return answer;
+                }
             }
         }
-//        2. 정렬 후 앞에있는놈들 카운트
-        Arrays.sort(arr, Collections.reverseOrder());
-        for (Integer integer : arr) {
-            if (integer > v) {
-                cnt++;
-            } else {
-                break;
-            }
-        }
-        return cnt;
+        return answer;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -36,7 +61,7 @@ public class _0508_응급실 {
 //        Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
         int m = kb.nextInt();
-        Integer[] arr = new Integer[n];
+        int[] arr = new int[n];
         for (int i = 0; i < n; i++) {
             arr[i] = kb.nextInt();
         }
