@@ -11,23 +11,24 @@ public class _0608_이분검색 {
     private int solution(int n, int m, int[] nums) {
         int answer = 0;
         Arrays.sort(nums);
-//        binary search 구현하면 됨
-        int lt = 0, rt = n - 1;
-        while (lt <= rt) {
-            int mid = (lt + rt) / 2;
-            if (nums[mid] == m) {
-                answer = mid + 1;
-                break;
-            }
-            if (nums[mid] > m) {
-                rt = mid - 1;
-            } else {
-                lt = mid + 1;
-            }
-        }
-        if (answer == 0) {
-            System.out.println("no value");
-        }
+////        binary search 구현하면 됨
+//        int lt = 0, rt = n - 1;
+//        while (lt <= rt) {
+//            int mid = (lt + rt) / 2;
+//            if (nums[mid] == m) {
+//                answer = mid + 1;
+//                break;
+//            }
+//            if (nums[mid] > m) {
+//                rt = mid - 1;
+//            } else {
+//                lt = mid + 1;
+//            }
+//        }
+//        if (answer == 0) {
+//            System.out.println("no value");
+//        }
+        answer = Arrays.binarySearch(nums, m) + 1;
         return answer;
     }
 
