@@ -98,6 +98,22 @@
   - TreeSet // 중복제거 + 정렬
   - TreeMap // 탐색[rbt이므로 O(logN)] + 정렬.
 
+## stack_queue
+> 괄호있으면(쌍으로 묶이는 거) 보통 스택
+
+- stack // Stack<E> var = new Stack<>();
+  - push
+  - pop
+  - peek
+  - size
+  - isEmpty
+- queue // Queue<E> var = new LinkedList<>();
+  - offer, add // 값, 예외
+  - pool, remove // 값, 예외
+  - peek, element // 값, 예외
+  - size
+  - isEmpty
+
 ## regex
 
 ### character class
