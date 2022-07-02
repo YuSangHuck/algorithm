@@ -273,3 +273,49 @@
   - (`?<=`ABC)
 - negative lookbehind
   - (`?<!`ABC)
+
+## sorting_and_searching
+
+- sorting
+  - 선택
+    - 스왑이 특정 인덱스를 선택하고 일어남
+  - 버블
+    - 스왑이 버블처럼 일어남
+  - 삽입
+- search
+  - binary
+    - built-in
+      - Arrays.binarySearch(arr, key)
+    - 직접구현
+      - O(logN)
+      - lt, rt, mid
+      - while(lt<=rt) { ... }
+      - if mid not set, then no value
+  - binary search 확장
+    - 결정알고리즘
+      - 내가 찾고자 하는 **답이 확실하게 특정 범위내에 존재**한다.
+      - 특정범위내에서 이분탐색으로 서칭하면 됨
+        - ex1) 노래길이들,dvd개수가 주어짐 // 답: dvd의 크기
+          - 결정 검증 함수
+            - 주어진거: 노래길이들,dvd개수
+            - 답: dvd의 크기
+            - 즉, 답이 주어지면, 답으로 노래길이를 나눠담았을때, dvd의 최대개수를 알 수 있다.
+              - 찾은 dvd최대개수가 주어진 dvd개수보다 작으면? 답을 줄여야 함
+              - 그 외에는 답을 늘려야 함
+        - ex2) 마구간위치,말개수가 주어짐 // 답: 가장 가까운 말들의 거리
+          - 결정 검증 함수
+            - 주어진거: 마구간위치, 말개수
+            - 답: 가까운 말들의 거리
+            - 즉, 답이 주어지면, 마구간 위치에 배치햇을때 배치가능한 말의최대개수를 알 수 있다
+              - 찾은 말의최대개수가 주어진 말개수보다 작으면? 답을 줄여야함
+              - 그 외에는 답을 늘려야함
+
+## Comparable
+
+- CompareTo<E>
+  - 오름차순
+    - a,b 일 때 return a-b 해주면 됨
+  - 내림차순
+    - a,b 일 때 반대로 return b-a 해주면 됨
+- Comparator
+  - sorting의 기준이 multiple한 경우?
