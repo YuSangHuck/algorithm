@@ -1,3 +1,4 @@
+//https://cote.inflearn.com/contest/10/problem/07-08
 package huck.자바_알고리즘_문제풀이.recursive_tree_graph;
 
 import java.io.FileInputStream;
@@ -9,32 +10,32 @@ import java.util.Scanner;
 
 //public class Main {
 public class _0708_BFS_송아지찾기1 {
-
-    class Point {
-        int pos, count;
-
-        public Point(int pos, int count) {
-            this.pos = pos;
-            this.count = count;
-        }
-    }
+    static int[] ch = new int[10001];
+    static int[] dx = {1, -1, 5};
 
     private void BFS(int pos, int e) {
-        Queue<Point> q = new LinkedList<>();
-        q.offer(new Point(pos, 0));
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(pos);
+        ch[pos] = 1;
+        int L = 0;
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i = 0; i < size; i++) {
-                Point cur = q.poll();
-                if (cur.pos == e) {
-                    System.out.println(cur.count);
-                    return;
-                } else {
-                    q.offer(new Point(cur.pos + 1, cur.count + 1));
-                    q.offer(new Point(cur.pos - 1, cur.count + 1));
-                    q.offer(new Point(cur.pos + 5, cur.count + 1));
+                int cur = q.poll();
+
+                for (int d : dx) {
+                    int nx = cur + d;
+                    if (nx == e) {
+                        System.out.println(L + 1);
+                        return;
+                    }
+                    if (nx >= 1 && nx <= 10000 && ch[nx] == 0) {
+                        ch[nx] = 1;
+                        q.offer(nx);
+                    }
                 }
             }
+            L++;
         }
     }
 
