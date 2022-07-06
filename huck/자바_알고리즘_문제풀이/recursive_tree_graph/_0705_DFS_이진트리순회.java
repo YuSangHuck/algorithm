@@ -2,6 +2,8 @@ package huck.자바_알고리즘_문제풀이.recursive_tree_graph;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 
@@ -46,6 +48,27 @@ public class _0705_DFS_이진트리순회 {
                 System.out.print(root.data + " ");
             }
         }
+
+        public void BFS(Node root) {
+            Queue<Node> q = new LinkedList<>();
+            q.offer(root);
+            int L = 0;
+            while (!q.isEmpty()) {
+                System.out.print(L++ + ": ");
+                int size = q.size();
+                for (int i = 0; i < size; i++) {
+                    Node cur = q.poll();
+                    System.out.print(cur.data + " ");
+                    if (cur.lt != null) {
+                        q.offer(cur.lt);
+                    }
+                    if (cur.rt != null) {
+                        q.offer(cur.rt);
+                    }
+                }
+                System.out.println();
+            }
+        }
     }
 
     private void Solution() {
@@ -67,7 +90,12 @@ public class _0705_DFS_이진트리순회 {
         tree.root.rt.rt.rt = new Node(15);
         tree.direction = LEVEL_ORDER;
 
-        tree.DFS(tree.root);
+        if (!tree.direction.equals(LEVEL_ORDER)) {
+            tree.DFS(tree.root);
+        } else {
+            tree.BFS(tree.root);
+        }
+
         System.out.println();
         if (tree.direction.equals(PRE_ORDER)) {
             System.out.println("1 2 4 8 9 5 10 11 3 6 12 13 7 14 15");
@@ -76,7 +104,7 @@ public class _0705_DFS_이진트리순회 {
         } else if (tree.direction.equals(POST_ORDER)) {
             System.out.println("8 9 4 10 11 5 2 12 13 6 14 15 7 3 1");
         } else if (tree.direction.equals(LEVEL_ORDER)) {
-            System.out.println("구현필요"); // bfs로 탐색하면 될듯?
+            System.out.println("1 2 3 4 5 6 7 8 9 10 11 12 13 14 15");
         }
     }
 
