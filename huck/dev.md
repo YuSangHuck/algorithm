@@ -319,3 +319,41 @@
     - a,b 일 때 반대로 return b-a 해주면 됨
 - Comparator
   - sorting의 기준이 multiple한 경우?
+
+## recursive_tree_graph
+
+- recursive
+  - 스택프레임 구조
+    - 간단하게 매개변수, 지역변수, 복귀주소
+    - 스택프레임때문에 배열로 짜는게 더 성능이 좋다
+- memoization
+  - 값을 저장하고, 재활용
+- tree
+  - 순회
+  - dfs에서 root가 null일 때 // 초기값
+    - 전위순회
+      - 부-왼-오
+    - 중위순회
+      - 왼-부-오
+    - 후위순회
+      - 왼-오-부
+- bfs
+  - 최단거리
+- graph와 인접행렬
+  - G(V,E) // Graph(Vertex, Edge), 인접행렬은 편의상 g[][]로 표현
+    - 무방향(양방향)
+      - vertex 1,2가 연결됐다면 -> g[1][2] = 1, g[2][1] = 1
+      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
+    - 방향
+      - vertex 1,2가 연결됐다면 -> g[1][2] = 1
+      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
+    - 가중치 방향
+      - vertex 1,2가 연결됐다면 -> g[1][2] = w
+      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v gt 0, then v는 w의 가중치로 연결됨
+  - 인접행렬
+    - 그래프가 표현된 2차원 배열
+  - 인접리스트
+    - 간선을 0,1이 아닌 리스트에 add함
+      - vertex가 n 개면 loop(n)하면서 n번 if하는걸 단순히 loop(list)하면 끝남
+        - 메모리 최적화
+        - 성능 최적화
