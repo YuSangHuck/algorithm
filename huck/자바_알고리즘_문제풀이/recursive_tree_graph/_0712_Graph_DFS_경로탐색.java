@@ -3,13 +3,14 @@ package huck.자바_알고리즘_문제풀이.recursive_tree_graph;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
 //public class Main {
 public class _0712_Graph_DFS_경로탐색 {
     static int n, m, answer;
-    static int[][] graph;
+    static ArrayList<ArrayList<Integer>> graph;
     static int[] ch;
 
     public void DFS(int v) {
@@ -18,14 +19,13 @@ public class _0712_Graph_DFS_경로탐색 {
             return;
         }
 
-        for (int i = 1; i <= n; i++) {
+        for (Integer i : graph.get(v)) {
 //            방문한적 없고, 간선연결
-            if (ch[i] == 0 && graph[v][i] != 0) {
+            if (ch[i] == 0) {
                 ch[i] = 1;
                 DFS(i);
                 ch[i] = 0;
             }
-
         }
 
     }
@@ -45,12 +45,17 @@ public class _0712_Graph_DFS_경로탐색 {
 
         n = kb.nextInt(); // vertex n개
         m = kb.nextInt(); // edge m개
-        graph = new int[n + 1][n + 1];
+        graph = new ArrayList<>();
+//        graph = new ArrayList<ArrayList<Integer>>();
+        for (int i = 0; i <= n; i++) {
+            graph.add(new ArrayList<>());
+
+        }
         ch = new int[n + 1];
         for (int i = 0; i < m; i++) {
             int a = kb.nextInt();
             int b = kb.nextInt();
-            graph[a][b] = 1;
+            graph.get(a).add(b);
         }
         T.Solution();
 
