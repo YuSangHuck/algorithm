@@ -13,6 +13,9 @@ public class _0805_DFS_동전교환 {
     static int[] arr;
 
     private void DFS(int depth, int sum) {
+        if (depth >= answer) {
+            return;
+        }
         if (sum > m) {
             return;
         }
