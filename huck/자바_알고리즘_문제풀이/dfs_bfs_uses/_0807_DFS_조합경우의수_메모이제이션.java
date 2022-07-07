@@ -15,21 +15,13 @@ public class _0807_DFS_조합경우의수_메모이제이션 {
         if (cache[n][r] != 0) {
             return cache[n][r];
         }
-        if (cache[n - 1][r - 1] == 0) {
-            int v = DFS(n - 1, r - 1);
-            cache[n - 1][r - 1] = v;
-            // nCr = nCn-r
-            // n-1 C r-1 = n-1 C n-r
-            cache[n - 1][n - r] = v;
+        if (n == r || r == 0) {
+            return 1;
         }
-        if (cache[n - 1][r] == 0) {
-            int v = DFS(n - 1, r);
-            cache[n - 1][r] = v;
-            // nCr = nCn-r
-            // n-1 C r = n-1 C n-1-r
-            cache[n - 1][n - 1 - r] = v;
-        }
-        return cache[n - 1][r - 1] + cache[n - 1][r];
+        int v = DFS(n - 1, r - 1) + DFS(n - 1, r);
+        cache[n][r] = v;
+        cache[n][n - r] = v;
+        return cache[n][r];
     }
 
     private int solution() {
@@ -45,15 +37,6 @@ public class _0807_DFS_조합경우의수_메모이제이션 {
         n = kb.nextInt();
         r = kb.nextInt();
         cache = new int[n + 1][n + 1];
-        for (int i = 0; i <= n; i++) {
-            cache[i][i] = 1;
-            cache[i][0] = 1;
-        }
-        // nCr = nCn-r
-        for (int i = 1; i <= n; i++) {
-            cache[i][1] = i;
-            cache[i][i - 1] = i;
-        }
         System.out.println(T.solution());
     }
 
