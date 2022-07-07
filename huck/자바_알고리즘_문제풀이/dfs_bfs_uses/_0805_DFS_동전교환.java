@@ -11,26 +11,23 @@ import java.util.Scanner;
 public class _0805_DFS_동전교환 {
     static int m, n, answer = Integer.MAX_VALUE;
     static int[] arr;
-    static ArrayList<Integer> coins = new ArrayList<>();
 
-    private void DFS(int sum) {
+    private void DFS(int depth, int sum) {
         if (sum > m) {
             return;
         }
         if (sum == m) {
 //            System.out.println("coins = " + coins);
-            answer = Math.min(coins.size(), answer);
+            answer = Math.min(depth, answer);
             return;
         }
         for (int coin : arr) {
-            coins.add(coin);
-            DFS(sum + coin);
-            coins.remove(coins.size() - 1);
+            DFS(1 + depth, sum + coin);
         }
     }
 
     private void solution() {
-        DFS(0);
+        DFS(0, 0);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
