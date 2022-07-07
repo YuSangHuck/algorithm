@@ -9,14 +9,12 @@ import java.util.Scanner;
 //public class Main {
 public class _0806_DFS_순열구하기 {
     static int m, n;
-    static int[] arr, ch;
+    static int[] arr, ch, pm;
 
     private void DFS(int depth) {
         if (depth == m) {
-            for (int i = 0; i < n; i++) {
-                if (ch[i] == 1) {
-                    System.out.print(arr[i] + " ");
-                }
+            for (int i : pm) {
+                System.out.print(i + " ");
             }
             System.out.println();
             return;
@@ -24,6 +22,7 @@ public class _0806_DFS_순열구하기 {
         for (int i = 0; i < n; i++) {
             if (ch[i] == 0) {
                 ch[i] = 1;
+                pm[depth] = arr[i];
                 DFS(1 + depth);
                 ch[i] = 0;
             }
@@ -44,6 +43,7 @@ public class _0806_DFS_순열구하기 {
         m = kb.nextInt();
         arr = new int[n]; // 오름차순 정렬
         ch = new int[n]; // 오름차순 정렬
+        pm = new int[m];
         for (int i = 0; i < n; i++) {
             arr[i] = kb.nextInt();
         }
