@@ -3,14 +3,15 @@ package huck.자바_알고리즘_문제풀이.dfs_bfs_uses;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 
 //public class Main {
 public class _0805_DFS_동전교환 {
     static int m, n, answer = Integer.MAX_VALUE;
-    static int[] arr;
+    static Integer[] arr;
 
     private void DFS(int depth, int sum) {
         if (depth >= answer) {
@@ -40,10 +41,11 @@ public class _0805_DFS_동전교환 {
 //        Main T = new Main();
 //        Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
-        arr = new int[n];
+        arr = new Integer[n];
         for (int i = n - 1; i >= 0; i--) {
             arr[i] = kb.nextInt();
         }
+        Arrays.sort(arr, Collections.reverseOrder());
         m = kb.nextInt();
         T.solution();
         System.out.println(answer);
