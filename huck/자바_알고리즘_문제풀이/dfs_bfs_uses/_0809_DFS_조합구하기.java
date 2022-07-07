@@ -10,7 +10,6 @@ import java.util.*;
 public class _0809_DFS_조합구하기 {
     static int n, m;
     static int[] combi;
-    static boolean[] ch;
 
     private void DFS(int depth, int startIdx) {
         if (depth == m) {
@@ -22,12 +21,8 @@ public class _0809_DFS_조합구하기 {
         }
 
         for (int i = startIdx; i < n; i++) {
-            if (!ch[i]) {
-                ch[i] = true;
-                combi[depth] = 1 + i;
-                DFS(1 + depth, startIdx + i);
-                ch[i] = false;
-            }
+            combi[depth] = 1 + i;
+            DFS(1 + depth, 1 + i);
         }
     }
 
@@ -46,7 +41,6 @@ public class _0809_DFS_조합구하기 {
         n = kb.nextInt();
         m = kb.nextInt();
         combi = new int[m];
-        ch = new boolean[n];
 
         T.solution();
     }
