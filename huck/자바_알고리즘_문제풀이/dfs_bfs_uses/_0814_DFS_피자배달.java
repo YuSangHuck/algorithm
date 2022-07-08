@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 //public class Main {
 public class _0814_DFS_피자배달 {
-    private static int n, m, answer = Integer.MAX_VALUE;
-    private static int[][] board;
-    private final static ArrayList<Point> houses = new ArrayList<>(), pizzas = new ArrayList<>();
+    private static int size, n, r, answer = Integer.MAX_VALUE;
+    private static int[] combination;
+    private static final ArrayList<Point> hs = new ArrayList<>(), ps = new ArrayList<>();
 
     static class Point {
         private final int x, y;
@@ -21,55 +21,29 @@ public class _0814_DFS_피자배달 {
         }
     }
 
-    private void DFS(ArrayList<int[]> combinations, int n, int r, int depth, int startIdx, int[] combi, boolean[] visited) {
-        if (depth == r) {
-            combinations.add(combi.clone());
-            return;
-        }
-        for (int i = startIdx; i < n; i++) {
-            if (!visited[i]) {
-                combi[depth] = i;
-                visited[i] = true;
-                DFS(combinations, n, r, depth + 1, i + 1, combi, visited);
-                visited[i] = false;
-            }
-        }
-    }
-
-    private ArrayList<int[]> combi(int n, int r) {
-//        0 ~ n-1중에 r개 선택
-//        0 1 2
-//        0 1 3
-        ArrayList<int[]> combinations = new ArrayList<>();
-        int[] combi = new int[r];
-        boolean[] visited = new boolean[n];
-        DFS(combinations, n, r, 0, 0, combi, visited);
-        return combinations;
-    }
-
-    private int solution() {
-//        l개의 피자집 중에서 m개의 조합을 구하고
-        for (int[] combiOfPizzas : combi(pizzas.size(), m)) {
-//            System.out.println(Arrays.toString(combiOfPizzas));
-//            각 조합별로 도시의피자배달거리 구해서
-            int[] disHouses = new int[houses.size()];
-            for (int i = 0; i < disHouses.length; i++) {
-                disHouses[i] = Integer.MAX_VALUE;
-                Point house = houses.get(i);
-                for (int pizzaIdx : combiOfPizzas) {
-                    Point pizza = pizzas.get(pizzaIdx);
-                    disHouses[i] = Math.min(disHouses[i],
-                            Math.abs(pizza.x - house.x) + Math.abs(pizza.y - house.y));
-                }
-            }
-//            그중에서 min을 출력
+    private void DFS(int l, int s) {
+        if (l == r) {
             int sum = 0;
-            for (int disHouse : disHouses) {
-                sum += disHouse;
+            for (Point h : hs) {
+
+                int tmp = Integer.MAX_VALUE;
+                for (int i : combination) {
+                    Point p = ps.get(i);
+                    tmp = Math.min(tmp, Math.abs(h.x - p.x) + Math.abs(h.y - p.y));
+                }
+                sum += tmp;
             }
             answer = Math.min(answer, sum);
+            return;
         }
-        return answer;
+        for (int i = s; i < n; i++) {
+            combination[l] = i;
+            DFS(l + 1, i + 1);
+        }
+    }
+
+    private void solution() {
+        DFS(0, 0);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -78,22 +52,21 @@ public class _0814_DFS_피자배달 {
         Scanner kb = new Scanner(fileInputStream);
 //        Main T = new Main();
 //        Scanner kb = new Scanner(System.in);
-        n = kb.nextInt(); // n by n
-        m = kb.nextInt(); // m개의 피자집 살림, 살리는 기준은 도시의피자배달거리의 최소, 도시의피자배달거리는 각 집들의 피자배달거리의 합
-//        이때 최소가 되는 도시의피자배달거리를 구하시오
-        board = new int[n][n];
-
-        for (int y = 0; y < n; y++) {
-            for (int x = 0; x < n; x++) {
+        size = kb.nextInt(); // n by n
+        r = kb.nextInt(); // m개의 피자집 살림, 살리는 기준은 도시의피자배달거리의 최소, 도시의피자배달거리는 각 집들의 피자배달거리의 합
+        combination = new int[r];
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
                 int status = kb.nextInt();
-                board[y][x] = status; // 0,1(집),2(피자집)
                 if (status == 1) {
-                    houses.add(new Point(x, y));
+                    hs.add(new Point(x, y));
                 } else if (status == 2) {
-                    pizzas.add(new Point(x, y));
+                    ps.add(new Point(x, y));
                 }
             }
         }
-        System.out.println(T.solution());
+        n = ps.size();
+        T.solution();
+        System.out.println(answer);
     }
 }
