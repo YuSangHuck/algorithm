@@ -3,6 +3,8 @@ package huck.자바_알고리즘_문제풀이.dfs_bfs_uses;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 //public class Main {
@@ -11,13 +13,28 @@ public class _0813_DFS_섬나라아일랜드 {
     private static final int[] dx = {0, 1, 1, 1, 0, -1, -1, -1}, dy = {1, 1, 0, -1, -1, -1, 0, 1};
     private static int[][] board;
 
-    private void DFS(int x, int y) {
-        for (int i = 0; i < dx.length; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && board[ny][nx] == 1) {
-                board[ny][nx] = 0;
-                DFS(nx, ny);
+    static class Point {
+        private final int x, y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+    private void BFS(int x, int y) {
+        Queue<Point> q = new LinkedList<>();
+        board[y][x] = 0;
+        q.offer(new Point(x, y));
+        while (!q.isEmpty()) {
+            Point p = q.poll();
+
+            for (int i = 0; i < dx.length; i++) {
+                int nx = p.x + dx[i];
+                int ny = p.y + dy[i];
+                if (nx >= 0 && nx < n && ny >= 0 && ny < n && board[ny][nx] == 1) {
+                    board[ny][nx] = 0;
+                    q.offer(new Point(nx, ny));
+                }
             }
         }
 
@@ -35,8 +52,7 @@ public class _0813_DFS_섬나라아일랜드 {
             for (int x = 0; x < n; x++) {
                 if (board[y][x] == 1) {
                     count++;
-                    board[y][x] = 0;
-                    DFS(x, y);
+                    BFS(x, y);
                 }
             }
         }
