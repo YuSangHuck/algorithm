@@ -3,24 +3,33 @@ package huck.자바_알고리즘_문제풀이.greedy;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Scanner;
+import java.util.*;
 
 //public class Main {
 public class _0901_씨름선수 {
 
     private int count = 0;
 
-    private void solution(int n, int[][] arr) {
-        for (int i = 0; i < n; i++) {
-            int[] candidate = arr[i];
-            boolean flag = true;
-            for (int j = 0; j < n; j++) {
-                if (arr[j][0] > candidate[0] && arr[j][1] > candidate[1]) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
+    static class Person implements Comparable<Person> {
+        private final int h, w;
+
+        @Override
+        public int compareTo(Person o) {
+            return o.h - this.h;
+        }
+
+        public Person(int h, int w) {
+            this.h = h;
+            this.w = w;
+        }
+    }
+
+    private void solution(int n, ArrayList<Person> arr) {
+        Collections.sort(arr); // 키로 내림차순정렬되어있으니, 몸무게만 비교하면 된다.
+        int max = Integer.MIN_VALUE;
+        for (Person p : arr) {
+            if (p.w > max) {
+                max = p.w;
                 count++;
             }
         }
@@ -36,10 +45,9 @@ public class _0901_씨름선수 {
         Scanner kb = new Scanner(fileInputStream);
 
         int n = kb.nextInt();
-        int[][] arr = new int[n][2];
+        ArrayList<Person> arr = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            arr[i][0] = kb.nextInt();
-            arr[i][1] = kb.nextInt();
+            arr.add(new Person(kb.nextInt(), kb.nextInt()));
         }
 
         T.solution(n, arr);
