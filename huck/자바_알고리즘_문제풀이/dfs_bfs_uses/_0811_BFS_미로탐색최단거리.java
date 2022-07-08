@@ -9,17 +9,16 @@ import java.util.Scanner;
 
 //public class Main {
 public class _0811_BFS_미로탐색최단거리 {
-    static int size, answer;
-    static int[][] board;
+    static int size;
+    static int[][] board, dis;
     static int[] dx = {0, 1, 0, -1}, dy = {1, 0, -1, 0};
 
     static class Pair {
-        private final int x, y, depth;
+        private final int x, y;
 
-        public Pair(int x, int y, int depth) {
+        public Pair(int x, int y) {
             this.x = x;
             this.y = y;
-            this.depth = depth;
         }
     }
 
@@ -27,7 +26,7 @@ public class _0811_BFS_미로탐색최단거리 {
         Queue<Pair> q = new LinkedList<>();
 
         board[x][y] = 1;
-        q.offer(new Pair(1, 1, 0));
+        q.offer(new Pair(1, 1));
 
         while (!q.isEmpty()) {
             Pair p = q.poll();
@@ -36,25 +35,25 @@ public class _0811_BFS_미로탐색최단거리 {
                 int nx = p.x + dx[i];
                 int ny = p.y + dy[i];
                 if (board[ny][nx] == 0) {
-                    if (nx == 7 && ny == 7) {
-                        answer = p.depth + 1;
-                        return;
-                    }
-
+//                    if (nx == 7 && ny == 7) {
+//                        answer = p.depth + 1;
+//                        return;
+//                    }
                     board[ny][nx] = 1;
-                    q.offer(new Pair(nx, ny, p.depth + 1));
+                    dis[ny][nx] = dis[p.y][p.x] + 1;
+                    q.offer(new Pair(nx, ny));
                 }
             }
         }
-        if (answer == 0) {
-            answer = -1;
-        }
-
     }
 
     private void solution() {
         BFS(1, 1);
-        System.out.println(answer);
+        if (dis[7][7] == 0) {
+            System.out.println(-1);
+        } else {
+            System.out.println(dis[7][7]);
+        }
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -67,6 +66,7 @@ public class _0811_BFS_미로탐색최단거리 {
         size = 7;
 
         board = new int[2 + size][2 + size];
+        dis = new int[2 + size][2 + size];
         for (int i = 1; i < size + 1; i++) {
             for (int j = 1; j < size + 1; j++) {
                 board[i][j] = kb.nextInt();
