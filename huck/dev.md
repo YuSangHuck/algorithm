@@ -3,116 +3,119 @@
 ## input
 
 - Scanner kb = new Scanner(InputSteam)
-  - param
-    - System.in 
-    - new FileInputStream("./input.txt");
-  - return
-    - kb.next() // 공백까지 read
-    - kb.nextLine() // 한줄 read
-    - kb.nextInt() // int 타입 반환
+    - param
+        - System.in
+        - new FileInputStream("./input.txt");
+    - return
+        - kb.next() // 공백까지 read
+        - kb.nextLine() // 한줄 read
+        - kb.nextInt() // int 타입 반환
 - 2차원 배열
-  - 사이즈를 아는 경우
-    - kb.nextInt()로 n번
+    - 사이즈를 아는 경우
+        - kb.nextInt()로 n번
 
 ## string
 
 - StringBuilder // AbstractStringBuilder.value는 mutable
-  - append
-  - toString
-  - `reverse`
-    - lt=0, rt = length-1
-    - while(lt < rt)
-  - cf) `palindrome`
-    - 회문은 for ( i < length/2 )
+    - append
+    - toString
+    - `reverse`
+        - lt=0, rt = length-1
+        - while(lt < rt)
+    - cf) `palindrome`
+        - 회문은 for ( i < length/2 )
 - String class // String.value는 immutable
-  - toUpperCase, toLowerCase
-  - charAt(int index)
-    - string에서 특정 index에 있는 문자 반환
-  - toCharArray()
-    - String to char[]
-  - split(String regex)
-  - `replaceAll(regex, replacement)`
-    - [^A-Z] // A-Z로 시작하지 않는것
-    - replaceAll(regex, "") // regex에 해당안되는거 전부 삭제 
-    - `replaceAll([^A-Z], "") // A-Z가 아닌거 전부 삭제`
+    - toUpperCase, toLowerCase
+    - charAt(int index)
+        - string에서 특정 index에 있는 문자 반환
+    - toCharArray()
+        - String to char[]
+    - split(String regex)
+    - `replaceAll(regex, replacement)`
+        - [^A-Z] // A-Z로 시작하지 않는것
+        - replaceAll(regex, "") // regex에 해당안되는거 전부 삭제
+        - `replaceAll([^A-Z], "") // A-Z가 아닌거 전부 삭제`
 - Character class
-  - isLowerCase(c)
-  - toLowerCase(c)
-  - isAlphabetic(c)
+    - isLowerCase(c)
+    - toLowerCase(c)
+    - isAlphabetic(c)
 - Integer class
-  - parseInt(string, radix) // 2진수를 10진수로
+    - parseInt(string, radix) // 2진수를 10진수로
 
 ## array
 
 - ArrayList vs array
-  - 사이즈가 가변
-    - ArrayList arr
-      - add
-  - 사이즈가 불변
-    - int[] arr
-      - arr[idx]
+    - 사이즈가 가변
+        - ArrayList arr
+            - add
+    - 사이즈가 불변
+        - int[] arr
+            - arr[idx]
 - void Arrays.sort(int[] a);
 
 ## 반복문
 
 - loop 횟수가 고정
-  - for
+    - for
 - loop 횟수가 미정
-  - while
+    - while
 
 ## twoPointer_slidingWindow // 이거는 다시 한번 볼것 or 추가문제 더 풀어볼것
+
 > 효율성 : O(n^2)-->O(n)
 
 - twoPointer 포인터 변수명
-  - 하나의 배열에서
-    - lt, rt
-  - n개의 배열에서
-    - p1, p2, ...
+    - 하나의 배열에서
+        - lt, rt
+    - n개의 배열에서
+        - p1, p2, ...
 - slidingWindow
-  - 윈도우 크기가 m이면
-  - 이전값 + arr[i] - arr[i-m]
+    - 윈도우 크기가 m이면
+    - 이전값 + arr[i] - arr[i-m]
 
 ## hashMap_treeSet
+
 > 해쉬, 정렬지원 Set
 
 - HashMap // hm // O(1)로 접근하기 위함
-  - E get(key)
-  - E getOrDefault(key, defaultValue)
-  - Set<E> keySet()
-  - boolean containsKey(key)
-  - size() // return sizeOfKeys // 당연하게도 특정 key의 value가 0이라면 이것도 count함 
-  - remove(key)
-  - equal(hashMap) // key와 key에 걸린 value까지 전부 체크해서 return
-    - `value가 primitive가 아니면? 주소는 다르지만 값은 같은 클래스같은경우`
+    - E get(key)
+    - E getOrDefault(key, defaultValue)
+    - Set<E> keySet()
+    - boolean containsKey(key)
+    - size() // return sizeOfKeys // 당연하게도 특정 key의 value가 0이라면 이것도 count함
+    - remove(key)
+    - equal(hashMap) // key와 key에 걸린 value까지 전부 체크해서 return
+        - `value가 primitive가 아니면? 주소는 다르지만 값은 같은 클래스같은경우`
 - TreeSet // ts // rbt기반의 set. 중복제거 + 정렬
-  - new TreeSet<>(Collections.reverseOrder()) // Desc
-  - add
-  - remove
-  - size
-  - first
-  - last
+    - new TreeSet<>(Collections.reverseOrder()) // Desc
+    - add
+    - remove
+    - size
+    - first
+    - last
 - 팁
-  - hm에 길이가 k인 문자열의 각 문자를 key로 넣는 상황이라면 loop 전에 k-1개를 우선 hm에 셋해주면 편하다
-  - HashMap // 탐색[O(1)]
-  - Set // 중복제거
-  - TreeSet // 중복제거 + 정렬
-  - TreeMap // 탐색[rbt이므로 O(logN)] + 정렬.
+    - hm에 길이가 k인 문자열의 각 문자를 key로 넣는 상황이라면 loop 전에 k-1개를 우선 hm에 셋해주면 편하다
+    - HashMap // 탐색[O(1)]
+    - Set // 중복제거
+    - TreeSet // 중복제거 + 정렬
+    - TreeMap // 탐색[rbt이므로 O(logN)] + 정렬.
 
 ## stack_queue
+
 > 괄호있으면(쌍으로 묶이는 거) 보통 스택
 
 - stack // Stack<E> var = new Stack<>();
-  - push
-  - pop
-  - peek
-  - size
-  - isEmpty
+    - push
+    - pop
+    - peek
+    - size
+    - isEmpty
 - queue // Queue<E> var = new LinkedList<>();
-  - offer, add // 값, 예외
-  - pool, remove // 값, 예외
-  - peek, element // 값, 예외
-  - size
-  - isEmpty
+    - offer, add // 값, 예외
+    - pool, remove // 값, 예외
+    - peek, element // 값, 예외
+    - size
+    - isEmpty
 
 ## regex
 
@@ -121,118 +124,118 @@
 > 문자 집합
 
 - character set
-  - [aeiou]
-  - 집합에 `포함된` 문자외 매칭
-  - string = "gl`i`b j`o`cks"
-    - matches: 2
+    - [aeiou]
+    - 집합에 `포함된` 문자외 매칭
+    - string = "gl`i`b j`o`cks"
+        - matches: 2
 - negated set
-  - [^aeiou]
-  - 집합에 `포함안된` 문자외 매칭
-  - string = "`g``l`i`b`` ``j`o`c``k``s`"
-    - matches: 8
+    - [^aeiou]
+    - 집합에 `포함안된` 문자외 매칭
+    - string = "`g``l`i`b`` ``j`o`c``k``s`"
+        - matches: 8
 - dot
-  - .
-  - `개행 제외` 모든 문자와 매칭
-  - [^\n\r]와 동일하다
-  - string = "`g``l``i``b`` ``j``o``c``k``s`"
-    - matches: 10
+    - .
+    - `개행 제외` 모든 문자와 매칭
+    - [^\n\r]와 동일하다
+    - string = "`g``l``i``b`` ``j``o``c``k``s`"
+        - matches: 10
 - match any
-  - [\s\S]
-  - `개행 포함` 모든 문자와 매칭
-  - string = "`g``l``i``b`` ``j``o``c``k``s`"
-    - matches: 10
+    - [\s\S]
+    - `개행 포함` 모든 문자와 매칭
+    - string = "`g``l``i``b`` ``j``o``c``k``s`"
+        - matches: 10
 - word
-  - \w
-  - [A-Za-z0-9_]와 동일  
-  - string = "`g``l``i``b` `j``o``c``k``s`"
-    - matches: 9
+    - \w
+    - [A-Za-z0-9_]와 동일
+    - string = "`g``l``i``b` `j``o``c``k``s`"
+        - matches: 9
 - not word
-  - \W
-  - [^A-Za-z0-9_]와 동일
-  - string = "glib` `jocks"
-    - matches: 1
+    - \W
+    - [^A-Za-z0-9_]와 동일
+    - string = "glib` `jocks"
+        - matches: 1
 - digit
-  - \d
-  - string = "glib jocks`1``2`"
-    - matches: 2
+    - \d
+    - string = "glib jocks`1``2`"
+        - matches: 2
 - not digit
-  - \D
-  - string = "`g``l``i``b`` ``j``o``c``k``s`12"
-    - matches: 10
+    - \D
+    - string = "`g``l``i``b`` ``j``o``c``k``s`12"
+        - matches: 10
 - whitespace
-  - \s
-  - string = "glib` `jocks"
-    - matches: 1
+    - \s
+    - string = "glib` `jocks"
+        - matches: 1
 - not whitespace
-  - \S
-  - string = "`g``l``i``b` `j``o``c``k``s`"
-    - matches: 9
+    - \S
+    - string = "`g``l``i``b` `j``o``c``k``s`"
+        - matches: 9
 
 ### anchor
 
 > 문자열 내에서 특정 positon 조건
 
 - beginning
-  - ^
-  - 문자열의 `시작부분과` 매칭
-  - regex = "^\w+", string = "`she` sells seashells"
-    - matches: 1
-  - regex = "^\w", string = "`s`he sells seashells"
-    - matches: 1
+    - ^
+    - 문자열의 `시작부분과` 매칭
+    - regex = "^\w+", string = "`she` sells seashells"
+        - matches: 1
+    - regex = "^\w", string = "`s`he sells seashells"
+        - matches: 1
 - end
-  - $
-  - 문자열의 `끝부분과` 매칭
-  - regex = "\w+$", string = "she sells `seashells`"
-    - matches: 1
-  - regex = "\w$", string = "she sells seashell`s`"
-    - matches: 1
+    - $
+    - 문자열의 `끝부분과` 매칭
+    - regex = "\w+$", string = "she sells `seashells`"
+        - matches: 1
+    - regex = "\w$", string = "she sells seashell`s`"
+        - matches: 1
 - [word boundary](https://ohgyun.com/392)
-  - \b
-  - 단어의 경계에 해단되는 위치와 매칭
-  - 단어의 경계
-    - between character, non-word character
-    - position(start / end of string)
-  - regex = "s\b", string = "she sell`s` seashell`s`"
-    - matches: 2
-  - regex = "\w\b", string = "sh`e` sell`s` seashell`s`"
-    - matches: 3
-  - regex = "\w+\b", string = "`she` `sells` `seashells`"
-    - matches: 3
+    - \b
+    - 단어의 경계에 해단되는 위치와 매칭
+    - 단어의 경계
+        - between character, non-word character
+        - position(start / end of string)
+    - regex = "s\b", string = "she sell`s` seashell`s`"
+        - matches: 2
+    - regex = "\w\b", string = "sh`e` sell`s` seashell`s`"
+        - matches: 3
+    - regex = "\w+\b", string = "`she` `sells` `seashells`"
+        - matches: 3
 - not word boundary
-  - \B
-  - 단어가 아닌 경계에 해단되는 위치와 매칭
-  - regex = "s\B", string = "`s`he `s`ells `s`ea`s`hells"
-    - matches: 4
-  - regex = "\w\B", string = "`s``h`e `s``e``l``l`s `s``e``a``s``h``e``l``l`s"
-    - matches: 14
-  - regex = "\w+\b", string = "`sh`e `sell`s `seashell`s"
-    - matches: 3
+    - \B
+    - 단어가 아닌 경계에 해단되는 위치와 매칭
+    - regex = "s\B", string = "`s`he `s`ells `s`ea`s`hells"
+        - matches: 4
+    - regex = "\w\B", string = "`s``h`e `s``e``l``l`s `s``e``a``s``h``e``l``l`s"
+        - matches: 14
+    - regex = "\w+\b", string = "`sh`e `sell`s `seashell`s"
+        - matches: 3
 
 ### Escaped characters
 
 > 특별한 문자들
 
 - reserved characters
-  - +*?^$\.[]{}()|/
-  - \+, \*, ...
+    - +*?^$\.[]{}()|/
+    - \+, \*, ...
 - octal escape
-  - \251 == ©
+    - \251 == ©
 - hex escape
-  - \xa9 == ©
+    - \xa9 == ©
 - unicode escape
-  - \u00A9 == ©
+    - \u00A9 == ©
 - tab
-  - \t
+    - \t
 - line feed
-  - \n
+    - \n
 - vertical tab
-  - \v
+    - \v
 - form feed
-  - \f
+    - \f
 - carriage return
-  - \r
+    - \r
 - null
-  - \0
+    - \0
 
 ### Group & References
 
@@ -241,119 +244,218 @@
 > 이해안됨
 
 - [capturing group](https://blog.rhostem.com/posts/2018-11-11-regex-capture-group)
-  - (ABC)
-  - 여러 토큰을 함께 그룹화하고 `하위 문자열을 추출`하거나 `역참조를 사용`하기 위한 `캡처 그룹`을 만듭니다.
-  - regex validation을 위한 test에서는 동일한 결과
-  - regex = "(ha)", string = "`ha``ha``ha` `ha`a `ha`h!"
-    - matches: 5
-  - regex = "(ha)+", string = "`hahaha` `ha`a `ha`h!"
-    - matches: 3
+    - (ABC)
+    - 여러 토큰을 함께 그룹화하고 `하위 문자열을 추출`하거나 `역참조를 사용`하기 위한 `캡처 그룹`을 만듭니다.
+    - regex validation을 위한 test에서는 동일한 결과
+    - regex = "(ha)", string = "`ha``ha``ha` `ha`a `ha`h!"
+        - matches: 5
+    - regex = "(ha)+", string = "`hahaha` `ha`a `ha`h!"
+        - matches: 3
 - non-capturing group
-  - (?:ABC)
-  - capturing group 없이 여러 토큰을 함께 그룹화
-  - regex validation을 위한 test에서는 동일한 결과
-  - regex = "(?:ha)+", string = "`hahaha` `ha`a `ha`h!"
-    - matches: 3
+    - (?:ABC)
+    - capturing group 없이 여러 토큰을 함께 그룹화
+    - regex validation을 위한 test에서는 동일한 결과
+    - regex = "(?:ha)+", string = "`hahaha` `ha`a `ha`h!"
+        - matches: 3
 
 ### lookaround
 
-> 둘러보기를 사용하면 결과에 포함하지 않고 기본 패턴 이전(lookbehind) 또는 이후(lookahead) 그룹을 일치시킬 수 있습니다. 
+> 둘러보기를 사용하면 결과에 포함하지 않고 기본 패턴 이전(lookbehind) 또는 이후(lookahead) 그룹을 일치시킬 수 있습니다.
 > 네거티브 룩어라운드는 패턴 전후에 일치할 수 없는 그룹을 지정합니다.
 > main pattern, lookaround, positive||negative
 
 - positive lookahead
-  - (`?=`ABC)
-  - regex = "\d(?=px)", string = "1pt `2`px 3em `4`px"
-    - matches: 2
+    - (`?=`ABC)
+    - regex = "\d(?=px)", string = "1pt `2`px 3em `4`px"
+        - matches: 2
 - negative lookahead
-  - (`?!`ABC)
-  - regex = "\d(?!px)", string = "`1`pt 2px `3`em 4px"
-    - matches: 2
+    - (`?!`ABC)
+    - regex = "\d(?!px)", string = "`1`pt 2px `3`em 4px"
+        - matches: 2
 - positive lookbehind
-  - (`?<=`ABC)
+    - (`?<=`ABC)
 - negative lookbehind
-  - (`?<!`ABC)
+    - (`?<!`ABC)
 
 ## sorting_and_searching
 
 - sorting
-  - 선택
-    - 스왑이 특정 인덱스를 선택하고 일어남
-  - 버블
-    - 스왑이 버블처럼 일어남
-  - 삽입
+    - 선택
+        - 스왑이 특정 인덱스를 선택하고 일어남
+    - 버블
+        - 스왑이 버블처럼 일어남
+    - 삽입
 - search
-  - binary
-    - built-in
-      - Arrays.binarySearch(arr, key)
-    - 직접구현
-      - O(logN)
-      - lt, rt, mid
-      - while(lt<=rt) { ... }
-      - if mid not set, then no value
-  - binary search 확장
-    - 결정알고리즘
-      - 내가 찾고자 하는 **답이 확실하게 특정 범위내에 존재**한다.
-      - 특정범위내에서 이분탐색으로 서칭하면 됨
-        - ex1) 노래길이들,dvd개수가 주어짐 // 답: dvd의 크기
-          - 결정 검증 함수
-            - 주어진거: 노래길이들,dvd개수
-            - 답: dvd의 크기
-            - 즉, 답이 주어지면, 답으로 노래길이를 나눠담았을때, dvd의 최대개수를 알 수 있다.
-              - 찾은 dvd최대개수가 주어진 dvd개수보다 작으면? 답을 줄여야 함
-              - 그 외에는 답을 늘려야 함
-        - ex2) 마구간위치,말개수가 주어짐 // 답: 가장 가까운 말들의 거리
-          - 결정 검증 함수
-            - 주어진거: 마구간위치, 말개수
-            - 답: 가까운 말들의 거리
-            - 즉, 답이 주어지면, 마구간 위치에 배치햇을때 배치가능한 말의최대개수를 알 수 있다
-              - 찾은 말의최대개수가 주어진 말개수보다 작으면? 답을 줄여야함
-              - 그 외에는 답을 늘려야함
+    - binary
+        - built-in
+            - Arrays.binarySearch(arr, key)
+        - 직접구현
+            - O(logN)
+            - lt, rt, mid
+            - while(lt<=rt) { ... }
+            - if mid not set, then no value
+    - binary search 확장
+        - 결정알고리즘
+            - 내가 찾고자 하는 **답이 확실하게 특정 범위내에 존재**한다.
+            - 특정범위내에서 이분탐색으로 서칭하면 됨
+                - ex1) 노래길이들,dvd개수가 주어짐 // 답: dvd의 크기
+                    - 결정 검증 함수
+                        - 주어진거: 노래길이들,dvd개수
+                        - 답: dvd의 크기
+                        - 즉, 답이 주어지면, 답으로 노래길이를 나눠담았을때, dvd의 최대개수를 알 수 있다.
+                            - 찾은 dvd최대개수가 주어진 dvd개수보다 작으면? 답을 줄여야 함
+                            - 그 외에는 답을 늘려야 함
+                - ex2) 마구간위치,말개수가 주어짐 // 답: 가장 가까운 말들의 거리
+                    - 결정 검증 함수
+                        - 주어진거: 마구간위치, 말개수
+                        - 답: 가까운 말들의 거리
+                        - 즉, 답이 주어지면, 마구간 위치에 배치햇을때 배치가능한 말의최대개수를 알 수 있다
+                            - 찾은 말의최대개수가 주어진 말개수보다 작으면? 답을 줄여야함
+                            - 그 외에는 답을 늘려야함
 
 ## Comparable
 
 - CompareTo<E>
-  - 오름차순
-    - a,b 일 때 return a-b 해주면 됨
-  - 내림차순
-    - a,b 일 때 반대로 return b-a 해주면 됨
+    - 오름차순
+        - a,b 일 때 return a-b 해주면 됨
+    - 내림차순
+        - a,b 일 때 반대로 return b-a 해주면 됨
 - Comparator
-  - sorting의 기준이 multiple한 경우?
+    - sorting의 기준이 multiple한 경우?
 
 ## recursive_tree_graph
 
 - recursive
-  - 스택프레임 구조
-    - 간단하게 매개변수, 지역변수, 복귀주소
-    - 스택프레임때문에 배열로 짜는게 더 성능이 좋다
+    - 스택프레임 구조
+        - 간단하게 매개변수, 지역변수, 복귀주소
+        - 스택프레임때문에 배열로 짜는게 더 성능이 좋다
 - memoization
-  - 값을 저장하고, 재활용
+    - 값을 저장하고, 재활용
 - tree
-  - 순회
-  - dfs에서 root가 null일 때 // 초기값
-    - 전위순회
-      - 부-왼-오
-    - 중위순회
-      - 왼-부-오
-    - 후위순회
-      - 왼-오-부
+    - 순회
+    - dfs에서 root가 null일 때 // 초기값
+        - 전위순회
+            - 부-왼-오
+        - 중위순회
+            - 왼-부-오
+        - 후위순회
+            - 왼-오-부
 - bfs
-  - 최단거리
+    - 최단거리
 - graph와 인접행렬
-  - G(V,E) // Graph(Vertex, Edge), 인접행렬은 편의상 g[][]로 표현
-    - 무방향(양방향)
-      - vertex 1,2가 연결됐다면 -> g[1][2] = 1, g[2][1] = 1
-      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
-    - 방향
-      - vertex 1,2가 연결됐다면 -> g[1][2] = 1
-      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
-    - 가중치 방향
-      - vertex 1,2가 연결됐다면 -> g[1][2] = w
-      - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v gt 0, then v는 w의 가중치로 연결됨
-  - 인접행렬
-    - 그래프가 표현된 2차원 배열
-  - 인접리스트
-    - 간선을 0,1이 아닌 리스트에 add함
-      - vertex가 n 개면 loop(n)하면서 n번 if하는걸 단순히 loop(list)하면 끝남
-        - 메모리 최적화
-        - 성능 최적화
+    - G(V,E) // Graph(Vertex, Edge), 인접행렬은 편의상 g[][]로 표현
+        - 무방향(양방향)
+            - vertex 1,2가 연결됐다면 -> g[1][2] = 1, g[2][1] = 1
+            - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
+        - 방향
+            - vertex 1,2가 연결됐다면 -> g[1][2] = 1
+            - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
+        - 가중치 방향
+            - vertex 1,2가 연결됐다면 -> g[1][2] = w
+            - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v gt 0, then v는 w의 가중치로 연결됨
+    - 인접행렬
+        - 그래프가 표현된 2차원 배열
+    - 인접리스트
+        - 간선을 0,1이 아닌 리스트에 add함
+            - vertex가 n 개면 loop(n)하면서 n번 if하는걸 단순히 loop(list)하면 끝남
+                - 메모리 최적화
+                - 성능 최적화
+
+## dfs_bfs_uses
+
+> 부분집합은 dfs로 해야만하나?
+
+### 순열, 조합, 중복순열, 중복조합
+
+- 조합 // 01, 02, 03, 12, 13, 23
+
+```java
+import java.util.Arrays;
+
+class T {
+    private static int n, r;
+    private static int[] combination = new int[r];
+
+    private void dfs(int l, int s) {
+        if (l == r) {
+            System.out.println(Arrays.toString(combination));
+            return;
+        }
+        for (int i = s; i < n; i++) {
+            combination[l] = i;
+            dfs(1 + l, 1 + i); // l번째 조합으로 i사용
+        }
+    }
+}
+```
+
+- 순열 // 01, 02, 03, 10, 12, 13, 20, 21, 23, 30, 31, 32
+
+```java
+import java.util.Arrays;
+
+class T {
+    private static int n, r;
+    private static int[] permutation = new int[r];
+    private static boolean[] ch = new int[n];
+
+    private void dfs(int l) {
+        if (l == r) {
+            System.out.println(Arrays.toString(permutation));
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            if (!ch[i]) {
+                ch[i] = true;
+                permutation[l] = i;
+                dfs(1 + l);
+                ch[i] = false;
+            }
+        }
+    }
+}
+```
+
+- 중복조합// 00, 01, 02, 03, 11, 12, 13, 22, 23, 33
+
+```java
+import java.util.Arrays;
+
+class T {
+    private static int n, r;
+    private static int[] combination = new int[r];
+
+    private void dfs(int l, int s) {
+        if (l == r) {
+            System.out.println(Arrays.toString(combination));
+            return;
+        }
+        for (int i = s; i < n; i++) {
+            combination[l] = i;
+            dfs(1 + l, i);
+        }
+    }
+}
+```
+
+- 중복순열 // 00, 01, 02, 03, 10, 11, 12, 13, 20, 21, 22, 23, 30, 31, 32, 33
+
+```java
+import java.util.Arrays;
+
+class T {
+    private static int n, r;
+    private static int[] permutation = new int[r];
+
+    private void dfs(int l) {
+        if (l == r) {
+            System.out.println(Arrays.toString(permutation));
+            return;
+        }
+        for (int i = 0; i < n; i++) {
+            permutation[l] = i;
+            dfs(1 + l);
+        }
+    }
+}
+```
