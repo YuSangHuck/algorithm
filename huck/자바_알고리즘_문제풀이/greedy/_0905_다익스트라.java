@@ -44,13 +44,15 @@ public class _0905_다익스트라 {
             Edge cur = pq.poll();
             int cv = cur.v;
             int cw = cur.w;
-            if (cw > dis[cv]) { // fixed를 저장 안하므로 거를건 여기서 걸러야 함
+            if (cw > dis[cv]) { // cw가 dis[cv]보다 작으면 업데이트 과정을 볼 필요가 없음
                 continue;
             }
             for (Edge next : graph.get(cv)) {
-                if (dis[next.v] > cw + next.w) {
-                    dis[next.v] = cw + next.w;
-                    pq.offer(new Edge(next.v, cw + next.w));
+                int nv = next.v;
+                int nw = cw + next.w;
+                if (dis[nv] > nw) {
+                    dis[nv] = nw;
+                    pq.offer(new Edge(nv, nw));
                 }
             }
         }
