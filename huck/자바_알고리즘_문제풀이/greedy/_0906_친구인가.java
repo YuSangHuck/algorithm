@@ -27,7 +27,7 @@ public class _0906_친구인가 {
 
     private void soultion(int n, int m, int[][] arr, int[][] check) {
         unf = new int[n + 1];
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             unf[i] = i;
         }
         for (int i = 0; i < m; i++) {
@@ -35,7 +35,7 @@ public class _0906_친구인가 {
         }
 
         int a = check[0][0];
-        int b = check[0][0];
+        int b = check[0][1];
 
         if (find(a) != find(b)) {
             System.out.println("NO");
