@@ -63,12 +63,17 @@ public class _0907_원더랜드 {
             unf[i] = i;
         }
 
+        int cnt = 0;
         for (Edge edge : edges) {
             int a = find(edge.v1);
             int b = find(edge.v2);
             if (a != b) {
                 union(edge.v1, edge.v2);
                 answer += edge.cost;
+                cnt++;
+                if (cnt == v - 1) {
+                    break;
+                }
             }
         }
         System.out.println(answer);
