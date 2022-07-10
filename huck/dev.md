@@ -322,8 +322,8 @@
         - a,b 일 때 반대로 return b-a 해주면 됨
 - Comparator
     - sorting의 기준이 multiple한 경우?
-- Collections.sort(E[]) vs  ArrayList.sort
-  - **Collections이 훨씬 빠르다**
+- Collections.sort(E[]) vs ArrayList.sort
+    - **Collections이 훨씬 빠르다**
 
 ## recursive_tree_graph
 
@@ -517,7 +517,7 @@ class T {
 > **Union & Find 알고리즘** 활용
 
 - Union & Find
-  - 서로소 집합을 표현하기 위한 알고리즘 중 하나
+    - 서로소 집합을 표현하기 위한 알고리즘 중 하나
 
 - 과정
     - unf 배열
@@ -540,3 +540,24 @@ class T {
         - edge의 cost를 sum
 - **프림**, PriorityQueue 활용
     - ArrayList<ArrayList<Edge>> graph, PriorityQueue<Edge> pq, boolean[] ch
+
+## **dynamic**
+
+> 복잡한문제를 해결할때
+> 문제를 본질이 변하지 않는 내에서 작은단위로 쪼개서 memoization하고 큰단위에 적용(bottom up)
+
+- [LIS](https://shoark7.github.io/programming/algorithm/3-LIS-algorithms)(다시 볼 것)
+    - dy[i]는 arr[i]를 사용햇을때 최대값을 의미함
+    - dy[i]는 max(dy[0], dy[1], ..., dy[i-1]) + arr[i]
+    - [_1003_LIS_최대부분증가수열](https://github.com/YuSangHuck/algorithm/tree/main/huck/자바_알고리즘_문제풀이/dynamic/_1003_LIS_최대부분증가수열.java)
+      참조
+    - [_1004_LIS_가장높은탑쌓기](https://github.com/YuSangHuck/algorithm/tree/main/huck/자바_알고리즘_문제풀이/dynamic/_1004_LIS_가장높은탑쌓기.java)
+      참조
+
+## **knapsack**
+
+> 그냥 가방문제 생각하면 됨
+> 가방에 어떤값을 기준으로 최대가 되도록
+> _1005는 동전이 무한개 -> dy의 초기값 INF && j가 증가하는 방향으로
+> _1006은 시험문제는 1번만 -> dy의 초기값이 0 && j가 감소하는 방향으로
+> n번가능한 경우는? 3중 dynamic 
