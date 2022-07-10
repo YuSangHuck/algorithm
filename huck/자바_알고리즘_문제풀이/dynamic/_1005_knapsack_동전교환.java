@@ -3,27 +3,22 @@ package huck.자바_알고리즘_문제풀이.dynamic;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 //public class Main {
 public class _1005_knapsack_동전교환 {
     private void solution(int n, int[] arr, int m) {
-        System.out.println("n = " + n + ", arr = " + Arrays.toString(arr) + ", m = " + m);
         Arrays.sort(arr);
 
         int answer = 0;
         int change = m;
         for (int i = n - 1; i >= 0; i--) {
-            if (change == 0) {
-                break;
-            }
-            while (change != 0) {
-                if (change >= arr[i]) {
-                    change -= arr[i];
-                    answer++;
+            if (change >= arr[i]) {
+                answer += change / arr[i];
+                change = change % arr[i];
+                if (change == 0) {
+                    break;
                 }
             }
         }
