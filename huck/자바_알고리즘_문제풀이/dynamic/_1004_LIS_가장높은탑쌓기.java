@@ -4,15 +4,17 @@ package huck.자바_알고리즘_문제풀이.dynamic;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 //public class Main {
 public class _1004_LIS_가장높은탑쌓기 {
-    static class Brick {
-        int a, h, w;
+    static class Brick implements Comparable<Brick> {
 
-        public Brick(int a, int h, int w) {
-            this.a = a;
+        int s, h, w;
+
+        public Brick(int s, int h, int w) {
+            this.s = s;
             this.h = h;
             this.w = w;
         }
@@ -20,10 +22,15 @@ public class _1004_LIS_가장높은탑쌓기 {
         @Override
         public String toString() {
             return "Brick{" +
-                    "area=" + a +
+                    "s=" + s +
                     ", h=" + h +
                     ", w=" + w +
                     '}';
+        }
+
+        @Override
+        public int compareTo(Brick o) {
+            return o.s - s;
         }
     }
 
@@ -32,26 +39,28 @@ public class _1004_LIS_가장높은탑쌓기 {
         for (int[] ints : arr) {
             bricks.add(new Brick(ints[0], ints[1], ints[2]));
         }
+        Collections.sort(bricks);
 
         // dy[i]는 arr[i]를 끝으로 쌓아올린 탑의최대높이
         int[] dy = new int[n];
         dy[0] = bricks.get(0).h;
+        int answer = dy[0];
         for (int i = 1; i < n; i++) {
             int max = 0;
-            for (int j = i - 1; j >= 0; j--) {
+            for (int j = i - 1; j >= 0; j--) { // 1. j번째 쌓은 경우에서 max를 찾는거임
 //                무게, 넓이
-                Brick iBrick = bricks.get(i);
-                Brick jBrick = bricks.get(j);
-                if (iBrick.w < jBrick.w && iBrick.a < jBrick.a) { // 무게, 넓이 조건으로 i를 j위에 올릴 수 있다면
-                    max = Math.max(max, dy[j] + iBrick.h);
+                Brick ib = bricks.get(i);
+                Brick jb = bricks.get(j);
+                if (ib.w < jb.w) { // 무게 조건으로 i를 j위에 올릴 수 있다면
+                    if (max < dy[j]) {
+                        max = dy[j];
+                    }
                 }
             }
-            if (max == 0) {
-                max = bricks.get(i).h;
-            }
-            dy[i] = max;
+            dy[i] = max + bricks.get(i).h; // 2. 그리고 찾은 max에다가 i번째 벽돌높이 더하는거고
+            answer = Math.max(answer, dy[i]); // 3. 그 값 기준으로 answer update
         }
-        System.out.println(dy[n - 1]);
+        System.out.println(answer);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
