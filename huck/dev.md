@@ -322,6 +322,8 @@
         - a,b 일 때 반대로 return b-a 해주면 됨
 - Comparator
     - sorting의 기준이 multiple한 경우?
+- Collections.sort(E[]) vs  ArrayList.sort
+  - **Collections이 훨씬 빠르다**
 
 ## recursive_tree_graph
 
@@ -365,7 +367,7 @@
 
 > 부분집합은 dfs로 해야만하나?
 
-### 순열, 조합, 중복순열, 중복조합
+### 순열, 조합, 중복순열, 중복조합 (외울것)
 
 - 조합 // 01, 02, 03, 12, 13, 23
 
@@ -459,3 +461,82 @@ class T {
     }
 }
 ```
+
+## greedy(다시 볼 것)
+
+> 현재에서 최선의 선택\
+> 어떤 기준으로 정렬한 후, 앞에서부터 순회하는것도 포괄적인 의미로\
+> 다익스트라, 프림, 크루스칼 이건 정말 그리디\
+> 나중에봤을때 최선이 아닐수도 잇다면? 동적계획법\
+> `정렬`
+
+- interval이 겹치는 갯수의 최대값
+    - 1차배열로 flat하게 만들어라
+    - 배열을 잘 정렬해서 counting
+    - [_0903_결혼식](https://github.com/YuSangHuck/algorithm/tree/main/huck/자바_알고리즘_문제풀이/greedy/_0903_결혼식.java) 참조
+
+## PriorityQueue
+
+> 기준의 default 정렬은 오름차순
+
+- PriorityQueue<E> pq = new PriorityQueue<>(); // E의 compareTo에 따라 오름차순으로 정렬
+- PriorityQueue<E> pq = new PriorityQueue<>(Collections.reverseOrder()); // E의 compareTo에 따라 내림차순으로 정렬
+
+## **다익스트라**
+
+> 그래프의 기준점에서 다른지점들까지의 최단거리
+> 그리디를 이용
+
+> O(n^2)
+> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)
+> 이걸 n번 반복하므로 O(n^2)
+> 가중치 방향그래프에서 1번정점에서 모든정점으로 최소거리비용
+> 조건1. 모든간선의 가중치는 0 혹은 양수다 // dis배열의 각 요소는 확정값에 의해 업데이트되면서 우상향이므로
+
+> O(n*logn)
+> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)지만 pq 이용하면 O(logn)
+> 과정 n번하면 O(nlogn)
+> PriorityQueue를 이용하면 됨
+
+- 과정
+    - graph 생성 및 초기화
+        - ArrayList<ArrayList>>graph = new ArrayList<>();
+    - dis 생성 및 초기화
+        - int[] dis = new int [n+1];
+        - Arrays.fill(dis, Integer.MAX_VALUE);
+    - 1번 정점 출발
+        - dis[1] = 0
+    - dis에서 최소값 찾고 체크 // O(n)
+        - min = Integer.MAX_VALUE
+        - for(int tmp: dis) { min = Math.min(min,tmp) }
+    - 체크한 v 기준 체크안된곳&&갈수있는곳의 dis업데이트하면서 최소값 저장
+    - 최소값에 해당되는 번호 체크
+
+## disjoint-set // 서로소 집합(다시 볼 것, 외울것)
+
+> **Union & Find 알고리즘** 활용
+
+- Union & Find
+  - 서로소 집합을 표현하기 위한 알고리즘 중 하나
+
+- 과정
+    - unf 배열
+        - 인덱스는 학생번호
+        - 값은 해당 학생이 소속된 집합번호????????
+        - 초기값은 unf[i] == i
+    - Union(a,b)
+        - a,b를 하나의 집합으로 만들어라
+    - Find(a)
+        - a학생의 집합번호 반환
+
+## **최소스패닝트리**
+
+> cf) 그래프는 회로가 존재(순환), 트리는 회로 존재x -> 정점이 n개면 간선은 n-1개
+
+- **크루스칼**, Union & Find 활용
+    - edge를 cost 기준으로 오름차순
+    - find의 값이 다를때만
+        - edge의 v1,v2를 union
+        - edge의 cost를 sum
+- **프림**, PriorityQueue 활용
+    - ArrayList<ArrayList<Edge>> graph, PriorityQueue<Edge> pq, boolean[] ch
