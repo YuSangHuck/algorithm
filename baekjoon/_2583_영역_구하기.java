@@ -25,7 +25,7 @@ public class _2583_영역_구하기 {
 
     private static void solution(int n, int m, int k, int[][] board) {
         int count = 0;
-        ArrayList<Integer> areas = new ArrayList<>();
+        PriorityQueue<Integer> areas = new PriorityQueue<>();
         int[] dx = {0, 1, 0, -1};
         int[] dy = {1, 0, -1, 0};
         for (int y = 0; y < m; y++) {
@@ -54,9 +54,9 @@ public class _2583_영역_구하기 {
             }
         }
         StringBuilder answer = new StringBuilder(count + "\n");
-        Collections.sort(areas);
-        for (Integer area : areas) {
-            answer.append(area).append(" ");
+        while (!areas.isEmpty()) {
+            int poll = areas.poll();
+            answer.append(poll).append(" ");
         }
         System.out.println(answer);
     }
