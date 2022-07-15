@@ -25,9 +25,6 @@ public class _15684_사다리조작 {
     }
 
     private void dfs(int d) {
-        if (d >= 4) {
-            return;
-        }
         if (d >= answer) {
             return; // 더 볼 필요가 없다
         }
@@ -41,6 +38,9 @@ public class _15684_사다리조작 {
         if (flag) {
 //            answer 업데이트
             answer = Math.min(d, answer);
+            return;
+        }
+        if (d >= 3) {
             return;
         }
 
