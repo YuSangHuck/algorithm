@@ -31,7 +31,7 @@ public class _15684_사다리조작 {
         return true;
     }
 
-    private void dfs(int d) {
+    private void dfs(int d, int s) {
         if (flag) {
             return;
         }
@@ -43,12 +43,13 @@ public class _15684_사다리조작 {
             return;
         }
 
-        for (int y = 1; y <= h; y++) {
+        // TODO dfs에서 depth가 깊어질 때, 사다리 처음부터 안놔도됨. 이전 depth에서 놓은 지점부터 놓으면 됨
+        for (int y = s; y <= h; y++) {
             for (int x = 1; x + 1 <= n; x++) {
                 if (board[y][x] == 0 && board[y][x + 1] == 0) {
                     board[y][x] = 1;
                     board[y][x + 1] = 2;
-                    dfs(d + 1);
+                    dfs(d + 1, y);
                     board[y][x] = 0;
                     board[y][x + 1] = 0;
                 }
@@ -63,7 +64,7 @@ public class _15684_사다리조작 {
         for (int i = 0; i <= 3; i++) {
             // TODO answer를 전역으로 선언하고 0,1,2... 증가시키고, dfs내부에서 bfs처럼 종결조건으로 쓸 수 있음
             answer = i;
-            dfs(0);
+            dfs(0, 1);
             if (flag) {
                 break;
             }
