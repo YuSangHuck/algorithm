@@ -32,9 +32,14 @@ public class _2580_스도쿠 {
     }
 
     void print() {
-        for (int[] ints : board) {
-            System.out.println(Arrays.toString(ints));
+        StringBuilder sb = new StringBuilder();
+        for (int[] row : board) {
+            for (int i : row) {
+                sb.append(i).append(" ");
+            }
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
 
     private boolean check(Point point, int i) {
