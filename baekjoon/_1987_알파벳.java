@@ -2,67 +2,49 @@ package baekjoon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.Arrays;
 import java.util.Scanner;
 
 //public class Main {
 public class _1987_알파벳 {
 
-    private static int r, c;
+    private static int r, c, answer;
     private static char[][] board;
-    private static boolean[] check = new boolean['Z' + 1];
-    private static int[] dx = {0, 1, 0, -1};
-    private static int[] dy = {1, 0, -1, 0};
+    private static final boolean[] check = new boolean['Z' - 'A' + 1];
+    private static final int[] dx = {0, 1, 0, -1};
+    private static final int[] dy = {1, 0, -1, 0};
 
-    private static char get(int x, int y) {
-        return board[y][x];
-    }
-
-    private static void set(int x, int y, char val) {
-        board[y][x] = val;
-    }
-
-    class Point {
-        int x, y, count;
-
-        public Point(int x, int y, int count) {
-            this.x = x;
-            this.y = y;
-            this.count = count;
+    private void print(int d) {
+        System.out.println(d);
+        System.out.println(Arrays.toString(check));
+        for (char[] chars : board) {
+            System.out.println(chars);
         }
+        System.out.println();
+        System.out.println();
+    }
 
-        @Override
-        public String toString() {
-            return "Point{" +
-                    "x=" + x +
-                    ", y=" + y +
-                    ", count=" + count +
-                    '}';
+    private void dfs(int d, int x, int y) {
+        answer = Math.max(answer, d + 1);
+
+        for (int i = 0; i < dx.length; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if (nx >= 0 && nx < c && ny >= 0 && ny < r) {
+                if (!check[board[ny][nx] - 'A']) {
+                    check[board[ny][nx] - 'A'] = true;
+                    dfs(d + 1, nx, ny);
+                    check[board[ny][nx] - 'A'] = false;
+                }
+            }
         }
     }
 
     private void solution() {
-        int answer = 0;
-        Queue<Point> q = new LinkedList<>();
-        check[board[0][0]] = true;
-        q.offer(new Point(0, 0, 1));
-
-        while (!q.isEmpty()) {
-            Point cur = q.poll();
-            answer = cur.count;
-            for (int i = 0; i < dx.length; i++) {
-                int nx = cur.x + dx[i];
-                int ny = cur.y + dy[i];
-                int nc = cur.count + 1;
-                if (nx >= 0 && nx < c && ny >= 0 && ny < r) {
-                    if (!check[board[ny][nx]]) {
-                        check[board[ny][nx]] = true;
-                        q.offer(new Point(nx, ny, nc));
-                    }
-                }
-            }
-        }
+        int x = 0;
+        int y = 0;
+        check[board[y][x] - 'A'] = true;
+        dfs(0, x, y);
         System.out.println(answer);
     }
 
@@ -80,7 +62,7 @@ public class _1987_알파벳 {
         for (int y = 0; y < r; y++) {
             int x = 0;
             for (char c : kb.nextLine().toCharArray()) {
-                set(x, y, c);
+                board[y][x] = c;
                 x++;
             }
         }
