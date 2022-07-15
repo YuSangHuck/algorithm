@@ -9,41 +9,39 @@ public class _15684_사다리조작 {
 
     private static int n, m, h, answer = Integer.MAX_VALUE; // 세로선개수, 가로선개수, 세로선마다 가로선을 놓을수 있는 위치 개수
     private static int[][] board;
+    private boolean flag;
 
-    private int go(int x) {
-        int y = 1;
-        while (y <= h) {
-            if (board[y][x] == 1 && board[y][x + 1] == 2) {
-                x++;
-            } else if (board[y][x] == 2 && board[y][x - 1] == 1) {
-                x--;
+    private boolean go() { // go 내부에서 세로선 전부 loop
+        for (int candidate = 1; candidate <= n; candidate++) {
+            int x = candidate;
+            int y = 1;
+            while (y <= h) {
+                if (board[y][x] == 1 && board[y][x + 1] == 2) {
+                    x++;
+                } else if (board[y][x] == 2 && board[y][x - 1] == 1) {
+                    x--;
+                }
+                y++;
             }
-            y++;
+            if (candidate != x) {
+                return false;
+            }
         }
 
-        return x;
+        return true;
     }
 
     private void dfs(int d) {
-        if (d >= answer) {
-            return; // 더 볼 필요가 없다
-        }
-        boolean flag = true;
-        for (int i = 1; i <= n; i++) {
-            if (i != go(i)) {
-                flag = false;
-                break;
-            }
-        }
         if (flag) {
-//            answer 업데이트
-            answer = Math.min(d, answer);
             return;
         }
-        if (d >= 3) {
+        if (d == answer) {
+            if (go()) {
+                flag = true;
+                return;
+            }
             return;
         }
-
 
         for (int y = 1; y <= h; y++) {
             for (int x = 1; x + 1 <= n; x++) {
@@ -62,11 +60,15 @@ public class _15684_사다리조작 {
     private void solution() {
 //        i -> i를 위한 조작
 //        추가될 가로선의 최소갯수
-        dfs(0);
-        if (answer == Integer.MAX_VALUE) {
-            answer = -1;
+        for (int i = 0; i <= 3; i++) {
+            // TODO answer를 전역으로 선언하고 0,1,2... 증가시키고, dfs내부에서 bfs처럼 종결조건으로 쓸 수 있음
+            answer = i;
+            dfs(0);
+            if (flag) {
+                break;
+            }
         }
-        System.out.println(answer);
+        System.out.println(flag ? answer : -1);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
