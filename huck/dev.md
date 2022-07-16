@@ -2,28 +2,22 @@
 
 ## input
 
-- Scanner kb = new Scanner(InputSteam)
-    - param
-        - System.in
-        - new FileInputStream("./input.txt");
-    - return
-        - kb.next() // 공백까지 read
-        - kb.nextLine() // 한줄 read
-        - kb.nextInt() // int 타입 반환
-- 2차원 배열
-    - 사이즈를 아는 경우
-        - kb.nextInt()로 n번
+- Scanner class
+    - Scanner(InputStream) // 생성자
+        - Scanner kb = new Scanner(new FileInputStream("./input.txt"))
+        - Scanner kb = new Scanner(System.in)
+    - next() // 공백까지 read
+    - nextLine() // 한줄 read
+    - nextInt() // int 타입 반환
+    - 팁
+        - 2차원 배열 사이즈를 아는 경우
+            - kb.nextInt()로 n번
 
 ## string
 
-- StringBuilder // AbstractStringBuilder.value는 mutable
-    - append
-    - toString
-    - `reverse`
-        - lt=0, rt = length-1
-        - while(lt < rt)
-    - cf) `palindrome`
-        - 회문은 for ( i < length/2 )
+> String.replaceAll(regex, replacement)\
+> StringBuilder.reverse
+
 - String class // String.value는 immutable
     - toUpperCase, toLowerCase
     - charAt(int index)
@@ -35,6 +29,16 @@
         - [^A-Z] // A-Z로 시작하지 않는것
         - replaceAll(regex, "") // regex에 해당안되는거 전부 삭제
         - `replaceAll([^A-Z], "") // A-Z가 아닌거 전부 삭제`
+- StringBuilder class // AbstractStringBuilder.value는 mutable
+    - 기본적으로 String과 비슷하나 Appendable만 추가로 implements한거
+    - append
+    - `reverse`
+        - 직접구현하면
+            - lt=0, rt = length-1
+            - while(lt < rt) swap(lt,rt)
+    - 팁
+        - `palindrome`
+            - 회문은 for ( i < length/2 )
 - Character class
     - isLowerCase(c)
     - toLowerCase(c)
@@ -42,16 +46,57 @@
 - Integer class
     - parseInt(string, radix) // 2진수를 10진수로
 
-## array
+## Collections
 
-- ArrayList vs array
-    - 사이즈가 가변
-        - ArrayList arr
-            - add
-    - 사이즈가 불변
-        - int[] arr
-            - arr[idx]
-- void Arrays.sort(int[] a);
+> List, Set, Map, Queue, PriorityQueue, Stack
+
+- Array built-in type
+    - 걍 배열
+    - Collections은 아님
+- List interface
+    - ArrayList // most
+    - LinkedList
+- Set interface
+    - HashSet // most
+    - TreeSet
+    - LinkedHashSet
+- Map interface
+    - HashMap // most
+    - TreeMap
+    - LinkedHashMap
+- Queue interface
+    - ArrayDeque
+    - LinkedList
+- PriorityQueue class
+    - PriorityQueue
+- Stack class
+    - Stack
+
+## Sort
+
+> 자바의 default 정렬은 오름차순(asc)임
+
+- 비교기
+    - Comparable<T> interface
+        - compareTo(T o)
+            - this와 파라미터 o를 비교
+                - 오름차순(this, o 순서로 정렬)
+                    - return -1
+                    - return this - o // 단순 정수면 이렇게 하면 됨
+                - 내림차순(o, this 순서로 정렬)
+                    - return 1
+                    - return o - this // 단순 정수면 이렇게 하면 됨
+    - Comparator<T> interface
+        - compare(T o1, T o2);
+            - 비교대상이 this와 무관한 인자 o1,o2개
+            - 보통 익명객체로 여러 비교기 만들어서 호출함
+- 정렬
+    - Arrays.sort // 오로지 Array만
+    - Collections.sort // List implements한놈이면 가능
+        - 내부적으로 아래의 List.sort(null) 호출
+    - List.sort(Comparator) // 잘 안씀
+        - List에 정의된 비교기 외에 1회성 정렬규칙인경우
+        - 보통 람다씀
 
 ## 반복문
 
@@ -60,7 +105,7 @@
 - loop 횟수가 미정
     - while
 
-## twoPointer_slidingWindow // 이거는 다시 한번 볼것 or 추가문제 더 풀어볼것
+## twoPointer_slidingWindow
 
 > 효율성 : O(n^2)-->O(n)
 
@@ -173,7 +218,8 @@
 
 ### anchor
 
-> 문자열 내에서 특정 positon 조건
+> 문자열 내에서 특정 positon 조건\
+> ^[a-z]+[A-Z]+$ // 소문자 시작해서 주르륵 후 대문자 주르륵으로 끝
 
 - beginning
     - ^
@@ -239,8 +285,8 @@
 
 ### Group & References
 
-> 그룹을 사용하면 토큰 시퀀스를 결합하여 함께 작동할 수 있습니다.
-> 캡처 그룹은 역참조로 참조할 수 있으며 결과에서 별도로 액세스할 수 있습니다.
+> 그룹을 사용하면 토큰 시퀀스를 결합하여 함께 작동할 수 있습니다.\
+> 캡처 그룹은 역참조로 참조할 수 있으며 결과에서 별도로 액세스할 수 있습니다.\
 > 이해안됨
 
 - [capturing group](https://blog.rhostem.com/posts/2018-11-11-regex-capture-group)
@@ -260,8 +306,8 @@
 
 ### lookaround
 
-> 둘러보기를 사용하면 결과에 포함하지 않고 기본 패턴 이전(lookbehind) 또는 이후(lookahead) 그룹을 일치시킬 수 있습니다.
-> 네거티브 룩어라운드는 패턴 전후에 일치할 수 없는 그룹을 지정합니다.
+> 둘러보기를 사용하면 결과에 포함하지 않고 기본 패턴 이전(lookbehind) 또는 이후(lookahead) 그룹을 일치시킬 수 있습니다.\
+> 네거티브 룩어라운드는 패턴 전후에 일치할 수 없는 그룹을 지정합니다.\
 > main pattern, lookaround, positive||negative
 
 - positive lookahead
@@ -279,6 +325,12 @@
 
 ## sorting_and_searching
 
+> binary-search
+> - Arrays.binarySearch(arr, key)
+> - Collections.binarySearch(List<E> list, E key)
+>
+> 결정알고리즘과 결정검증함수
+
 - sorting
     - 선택
         - 스왑이 특정 인덱스를 선택하고 일어남
@@ -288,44 +340,35 @@
 - search
     - binary
         - built-in
-            - Arrays.binarySearch(arr, key)
+            - `Arrays.binarySearch(arr, key)`
         - 직접구현
             - O(logN)
             - lt, rt, mid
             - while(lt<=rt) { ... }
             - if mid not set, then no value
     - binary search 확장
-        - 결정알고리즘
+        - `결정알고리즘`과 `결정검증함수`
             - 내가 찾고자 하는 **답이 확실하게 특정 범위내에 존재**한다.
             - 특정범위내에서 이분탐색으로 서칭하면 됨
                 - ex1) 노래길이들,dvd개수가 주어짐 // 답: dvd의 크기
-                    - 결정 검증 함수
+                    - 결정검증함수
                         - 주어진거: 노래길이들,dvd개수
                         - 답: dvd의 크기
                         - 즉, 답이 주어지면, 답으로 노래길이를 나눠담았을때, dvd의 최대개수를 알 수 있다.
                             - 찾은 dvd최대개수가 주어진 dvd개수보다 작으면? 답을 줄여야 함
                             - 그 외에는 답을 늘려야 함
                 - ex2) 마구간위치,말개수가 주어짐 // 답: 가장 가까운 말들의 거리
-                    - 결정 검증 함수
+                    - 결정검증함수
                         - 주어진거: 마구간위치, 말개수
                         - 답: 가까운 말들의 거리
                         - 즉, 답이 주어지면, 마구간 위치에 배치햇을때 배치가능한 말의최대개수를 알 수 있다
                             - 찾은 말의최대개수가 주어진 말개수보다 작으면? 답을 줄여야함
                             - 그 외에는 답을 늘려야함
 
-## Comparable
-
-- CompareTo<E>
-    - 오름차순
-        - a,b 일 때 return a-b 해주면 됨
-    - 내림차순
-        - a,b 일 때 반대로 return b-a 해주면 됨
-- Comparator
-    - sorting의 기준이 multiple한 경우?
-- Collections.sort(E[]) vs ArrayList.sort
-    - **Collections이 훨씬 빠르다**
-
 ## recursive_tree_graph
+
+> memoization: [n]에서만 저장,재활용\
+> graph: 인접리스트, 방향과 가중치
 
 - recursive
     - 스택프레임 구조
@@ -333,31 +376,36 @@
         - 스택프레임때문에 배열로 짜는게 더 성능이 좋다
 - memoization
     - 값을 저장하고, 재활용
+    - 저장, 재활용은 항상 `n에서만`. f(n) = f(n-1) + f(n-2)일때
+        - 저장
+            - return memoization[n] = dfs(n-1) + dfs(n-2);
+        - 재활용
+            - if (memoization[n] > 0) return memoization[n];
 - tree
     - 순회
     - dfs에서 root가 null일 때 // 초기값
         - 전위순회
-            - 부-왼-오
+            - `부`-왼-오
         - 중위순회
-            - 왼-부-오
+            - 왼-`부`-오
         - 후위순회
-            - 왼-오-부
+            - 왼-오-`부`
 - bfs
     - 최단거리
-- graph와 인접행렬
+- `graph`와 인접행렬
     - G(V,E) // Graph(Vertex, Edge), 인접행렬은 편의상 g[][]로 표현
-        - 무방향(양방향)
-            - vertex 1,2가 연결됐다면 -> g[1][2] = 1, g[2][1] = 1
+        - `무방향`(양방향)
+            - vertex 1,2가 연결됐다면 -> g[1][2] = g[2][1] = 1
             - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
-        - 방향
+        - `방향`
             - vertex 1,2가 연결됐다면 -> g[1][2] = 1
             - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v equal 1, then v는 연결됨
-        - 가중치 방향
+        - `가중치` 방향
             - vertex 1,2가 연결됐다면 -> g[1][2] = w
             - vertex 1에서 연결된곳 찾을때는 -> for(v: g[1]) { if v gt 0, then v는 w의 가중치로 연결됨
     - 인접행렬
         - 그래프가 표현된 2차원 배열
-    - 인접리스트
+    - `인접리스트`
         - 간선을 0,1이 아닌 리스트에 add함
             - vertex가 n 개면 loop(n)하면서 n번 if하는걸 단순히 loop(list)하면 끝남
                 - 메모리 최적화
@@ -462,6 +510,13 @@ class T {
 }
 ```
 
+## PriorityQueue
+
+> 기준의 default 정렬은 오름차순
+
+- PriorityQueue<E> pq = new PriorityQueue<>(); // E의 compareTo에 따라 오름차순으로 정렬
+- PriorityQueue<E> pq = new PriorityQueue<>(Collections.reverseOrder()); // E의 compareTo에 따라 내림차순으로 정렬
+
 ## greedy(다시 볼 것)
 
 > 현재에서 최선의 선택\
@@ -475,27 +530,20 @@ class T {
     - 배열을 잘 정렬해서 counting
     - [_0903_결혼식](https://github.com/YuSangHuck/algorithm/tree/main/huck/자바_알고리즘_문제풀이/greedy/_0903_결혼식.java) 참조
 
-## PriorityQueue
+### **다익스트라**
 
-> 기준의 default 정렬은 오름차순
-
-- PriorityQueue<E> pq = new PriorityQueue<>(); // E의 compareTo에 따라 오름차순으로 정렬
-- PriorityQueue<E> pq = new PriorityQueue<>(Collections.reverseOrder()); // E의 compareTo에 따라 내림차순으로 정렬
-
-## **다익스트라**
-
-> 그래프의 기준점에서 다른지점들까지의 최단거리
+> 그래프의 기준점에서 다른지점들까지의 최단거리\
 > 그리디를 이용
 
-> O(n^2)
-> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)
-> 이걸 n번 반복하므로 O(n^2)
-> 가중치 방향그래프에서 1번정점에서 모든정점으로 최소거리비용
+> O(n^2)\
+> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)\
+> 이걸 n번 반복하므로 O(n^2)\
+> 가중치 방향그래프에서 1번정점에서 모든정점으로 최소거리비용\
 > 조건1. 모든간선의 가중치는 0 혹은 양수다 // dis배열의 각 요소는 확정값에 의해 업데이트되면서 우상향이므로
 
-> O(n*logn)
-> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)지만 pq 이용하면 O(logn)
-> 과정 n번하면 O(nlogn)
+> O(n*logn)\
+> 다익스트라는 dis[n]을 fix하는 과정을 n번하고, 각 과정마다 최소값을 찾아야하므로 O(n)지만 pq 이용하면 O(logn)\
+> 과정 n번하면 O(nlogn)\
 > PriorityQueue를 이용하면 됨
 
 - 과정
@@ -512,7 +560,7 @@ class T {
     - 체크한 v 기준 체크안된곳&&갈수있는곳의 dis업데이트하면서 최소값 저장
     - 최소값에 해당되는 번호 체크
 
-## disjoint-set // 서로소 집합(다시 볼 것, 외울것)
+### disjoint-set // 서로소 집합(다시 볼 것, 외울것)
 
 > **Union & Find 알고리즘** 활용
 
@@ -529,7 +577,7 @@ class T {
     - Find(a)
         - a학생의 집합번호 반환
 
-## **최소스패닝트리**
+### **최소스패닝트리**
 
 > cf) 그래프는 회로가 존재(순환), 트리는 회로 존재x -> 정점이 n개면 간선은 n-1개
 
