@@ -18,10 +18,7 @@ public class _0807_DFS_조합경우의수_메모이제이션 {
         if (n == r || r == 0) {
             return 1;
         }
-        int v = DFS(n - 1, r - 1) + DFS(n - 1, r);
-        cache[n][r] = v;
-        cache[n][n - r] = v;
-        return cache[n][r];
+        return cache[n][r] = cache[n][n - r] = DFS(n - 1, r - 1) + DFS(n - 1, r);
     }
 
     private int solution() {
