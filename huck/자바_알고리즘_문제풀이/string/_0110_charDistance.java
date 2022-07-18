@@ -5,18 +5,19 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+//public class Main {
 public class _0110_charDistance {
-    private int[] charDistance(String str, char c) {
-        int[] answer = new int[str.length()];
+    private static String charDistance(String str, char c) {
+        int[] arr = new int[str.length()];
 
         int p = 1000;
         for (int i = 0; i < str.length(); i++) {
             if (str.charAt(i) == c) {
                 p = 0;
-                answer[i] = p;
+                arr[i] = p;
             } else {
                 p++;
-                answer[i] = p;
+                arr[i] = p;
             }
         }
         p = 1000;
@@ -25,26 +26,26 @@ public class _0110_charDistance {
                 p = 0;
             } else {
                 p++;
-                answer[i] = Math.min(p, answer[i]);
+                arr[i] = Math.min(p, arr[i]);
             }
         }
-
-        return answer;
+        StringBuilder sb = new StringBuilder();
+        for (int i : arr) {
+            sb.append(i).append(" ");
+        }
+        return sb.toString();
     }
 
-    public int[] solution(String str, char c) {
+    public static String solution(String str, char c) {
         return charDistance(str, c);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        _0110_charDistance T = new _0110_charDistance();
-        FileInputStream fileInputStream = new FileInputStream("./input.txt");
-
+        FileInputStream fileInputStream = new FileInputStream("./huck/자바_알고리즘_문제풀이/string/_0110_charDistance.txt");
         Scanner kb = new Scanner(fileInputStream);
+//        Scanner kb = new Scanner(System.in);
         String str = kb.next();
         char c = kb.next().charAt(0);
-        for (int i : T.solution(str, c)) {
-            System.out.print(i+" ");
-        }
+        System.out.print(solution(str, c));
     }
 }
