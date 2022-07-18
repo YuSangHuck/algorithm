@@ -7,40 +7,36 @@ import java.util.Scanner;
 
 public class _0101_findChar {
 
-    public int findChar1(String s, char c) {
-        int ret = 0;
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == c) {
-                ret++;
-            }
-        }
-        return ret;
-    }
-    public int findChar2(String s, char c) {
-        int ret = 0;
-        char[] chars = s.toCharArray();
-        for (char _c : chars) {
-            if (_c == c) {
-                ret++;
-            }
-        }
-        return ret;
-    }
-
     public int solution(String str, char t) {
-        int answer;
+        int answer = 0;
         str = str.toUpperCase();
         t = Character.toUpperCase(t);
 
-//        answer = findChar1(str, t);
-        answer = findChar2(str, t);
+        char[] arr = str.toCharArray();
+        int lt = 0;
+        int rt = str.length() - 1;
+        while (lt < rt) {
+            if (arr[lt] == t) {
+                answer++;
+            }
+            if (arr[rt] == t) {
+                answer++;
+            }
+
+            lt++;
+            rt--;
+        }
+        if (lt == rt && arr[lt] == t) {
+            answer++;
+        }
+
 
         return answer;
     }
 
     public static void main(String[] args) throws FileNotFoundException {
         _0101_findChar T = new _0101_findChar();
-        FileInputStream fileInputStream = new FileInputStream("./input.txt");
+        FileInputStream fileInputStream = new FileInputStream("./huck/자바_알고리즘_문제풀이/string/_0101_findChar.txt");
 
         Scanner kb = new Scanner(fileInputStream);
         String str = kb.next();
