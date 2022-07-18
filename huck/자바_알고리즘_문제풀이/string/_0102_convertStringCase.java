@@ -6,21 +6,15 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class _0102_convertStringCase {
-    public String convertStringCase1(String src) {
-        String dst = "";
-        char[] chars = src.toCharArray();
-        for (char c : chars) {
-            if (Character.isUpperCase(c)) dst += Character.toLowerCase(c);
-            else dst += Character.toUpperCase(c);
-        }
-        return dst;
-    }
     public String convertStringCase2(String src) {
         StringBuilder dst = new StringBuilder();
         char[] chars = src.toCharArray();
         for (char c : chars) {
-            if (Character.isUpperCase(c)) dst.append(Character.toLowerCase(c));
-            else dst.append(Character.toUpperCase(c));
+            if (Character.isUpperCase(c)) {
+                dst.append(Character.toLowerCase(c)); // c - ('a' - 'A')
+            } else {
+                dst.append(Character.toUpperCase(c)); // c + ('a' - 'A')
+            }
         }
         return dst.toString();
     }
@@ -28,7 +22,6 @@ public class _0102_convertStringCase {
     public String solution(String str) {
         String answer;
 
-        answer = convertStringCase1(str);
         answer = convertStringCase2(str);
 
         return answer;
@@ -36,7 +29,7 @@ public class _0102_convertStringCase {
 
     public static void main(String[] args) throws FileNotFoundException {
         _0102_convertStringCase T = new _0102_convertStringCase();
-        FileInputStream fileInputStream = new FileInputStream("./input.txt");
+        FileInputStream fileInputStream = new FileInputStream("./huck/자바_알고리즘_문제풀이/string/_0102_convertStringCase.txt");
 
         Scanner kb = new Scanner(fileInputStream);
         String str = kb.next();
