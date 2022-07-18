@@ -580,6 +580,9 @@ class T {
 ### **최소스패닝트리**
 
 > cf) 그래프는 회로가 존재(순환), 트리는 회로 존재x -> 정점이 n개면 간선은 n-1개
+> - ArrayList<Edge> edges, unf => 크루스칼
+> - ArrayList<ArrayList<Edge>> graph, ch, PriorityQueue<Edge> pq => 프림
+> - ArrayList<ArrayList<Edge>> graph, unf, PriorityQueue<Edge> pq => 내가푼거. 프림에서 ch 대신 unf 쓴거
 
 - **크루스칼**, Union & Find 활용
     - edge를 cost 기준으로 오름차순
