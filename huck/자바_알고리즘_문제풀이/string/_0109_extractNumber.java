@@ -4,8 +4,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+//public class Main {
 public class _0109_extractNumber {
-    private int extractNumber1(String str) {
+    private static int extractNumber1(String str) {
         int ret = 0;
         char[] chars = str.toCharArray();
         for (char c : chars) {
@@ -15,21 +16,20 @@ public class _0109_extractNumber {
         }
         return ret;
     }
-    private int extractNumber2(String str) {
+    private static int extractNumber2(String str) {
         return Integer.parseInt(str.replaceAll("[^\\d]", ""));
     }
 
-    public int solution(String str) {
-//        return extractNumber1(str);
-        return extractNumber2(str);
+    public static int solution(String str) {
+        return extractNumber1(str);
+//        return extractNumber2(str);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        _0109_extractNumber T = new _0109_extractNumber();
         FileInputStream fileInputStream = new FileInputStream("./input.txt");
-
         Scanner kb = new Scanner(fileInputStream);
+//        Scanner kb = new Scanner(System.in);
         String str = kb.nextLine();
-        System.out.println(T.solution(str));
+        System.out.println(solution(str));
     }
 }
