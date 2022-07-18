@@ -86,7 +86,7 @@
                 - 내림차순(o, this 순서로 정렬)
                     - return 1
                     - return o - this // 단순 정수면 이렇게 하면 됨
-    - Comparator<T> interface
+    - Comparator<T> interface // 객체생성에 cote사이트 기준 거의 200ms
         - compare(T o1, T o2);
             - 비교대상이 this와 무관한 인자 o1,o2개
             - 보통 익명객체로 여러 비교기 만들어서 호출함
