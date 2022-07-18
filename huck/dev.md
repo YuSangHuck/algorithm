@@ -39,6 +39,7 @@
     - 팁
         - `palindrome`
             - 회문은 for ( i < length/2 )
+            - 직접 구현안하고 StringBuilder.reverse(s).equals(s) 해도 됨
 - Character class
     - isLowerCase(c)
     - toLowerCase(c)
