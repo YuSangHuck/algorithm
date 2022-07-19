@@ -11,7 +11,8 @@ import java.util.Scanner;
 public class _0302_commonElement {
 
     public String solution(int n, int m, int[] arr1, int[] arr2) {
-//        arr1, arr2는 정렬된 상태
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
         StringBuilder sb = new StringBuilder();
 
         int p1 = 0;
@@ -23,9 +24,9 @@ public class _0302_commonElement {
             } else if (arr1[p1] < arr2[p2]) {
                 p1++;
             } else {
-                sb.append(arr1[p1]);
-                sb.append(" ");
+                sb.append(arr1[p1]).append(" ");
                 p1++;
+                p2++;
             }
 
         }
@@ -51,8 +52,6 @@ public class _0302_commonElement {
         for (int i = 0; i < m; i++) {
             arr2[i] = kb.nextInt();
         }
-        Arrays.sort(arr1);
-        Arrays.sort(arr2);
         System.out.println(T.solution(n, m, arr1, arr2));
     }
 }
