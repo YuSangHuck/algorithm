@@ -57,7 +57,7 @@ public class _2098_외판원순회 {
 
         int tmp = Integer.MAX_VALUE;
         for (int left = 0; left < n; left++) {
-            boolean notVisit = ((visited >> left) & 1) == 0;
+            boolean notVisit = (visited & (1 << left)) == 0;
             if (notVisit && board[last][left] != 0) {
                 tmp = Math.min(tmp,
                         dfs(left, visited | (1 << left)) + board[last][left]);
