@@ -2,42 +2,53 @@ package baekjoon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Scanner;
 
 //public class Main {
 public class _1181_단어정렬 {
+    static class CustomString implements Comparable<CustomString> {
+        String s;
+
+        public CustomString(String s) {
+            this.s = s;
+        }
+
+        @Override
+        public int compareTo(CustomString o) {
+            if (s.length() == o.s.length()) {
+                return s.compareTo(o.s);
+            } else {
+                return s.length() - o.s.length();
+            }
+        }
+    }
 
     private static String solution(int n, String[] arr) {
 //        1. 길이가 짧은거부터
 //        2. 길이가 동일하면 사전순
 //        3. 중복제외
 
-        // 3n이 아닌가봄 ㅠ
+        // ㅁㄹ 젤 느림
 
         HashMap<String, Boolean> hashMap = new HashMap<>();
-        ArrayList<String> strings = new ArrayList<>();
+        ArrayList<CustomString> strings = new ArrayList<>();
 //        distinct,ArrayList::new(n)
         for (String key : arr) {
             Boolean hasKey = hashMap.getOrDefault(key, false);
             if (!hasKey) {
-                strings.add(key);
+                strings.add(new CustomString(key));
                 hashMap.put(key, true);
             }
         }
 //        sorted(n, comparator)
-        strings.sort((o1, o2) -> {
-            if (o1.length() == o2.length()) {
-                return o1.compareTo(o2);
-            } else {
-                return o1.length() - o2.length();
-            }
-        });
+        strings.sort(null);
 
         // iter4StringBuilder(n)
         StringBuilder sb = new StringBuilder();
-        for (String string : strings) {
-            sb.append(string).append('\n');
+        for (CustomString string : strings) {
+            sb.append(string.s).append('\n');
         }
         return sb.toString();
     }
