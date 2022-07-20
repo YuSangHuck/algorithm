@@ -2,6 +2,7 @@ package baekjoon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Scanner;
 
 //  answer = INF
@@ -41,15 +42,16 @@ import java.util.Scanner;
 //public class Main {
 public class _2098_외판원순회 {
 
-    private static int n, start, ALL_VISITED, answer = Integer.MAX_VALUE;
-    private static int[][] board, dp;
+    private static int n, start, ALL_VISITED;
+    private static int[][] board;
+    private static Integer[][] dp;
 
     private static int dfs(int last, int visited) {
         if (visited == ALL_VISITED) {
             return board[last][start] != 0 ? board[last][start] : Integer.MAX_VALUE;
         }
 
-        if (dp[last][visited] != 0) {
+        if (dp[last][visited] != null) {
             return dp[last][visited];
         }
 
@@ -68,8 +70,7 @@ public class _2098_외판원순회 {
     private static int solution() {
         ALL_VISITED = (1 << n) - 1;
         start = 0;
-        dfs(start, 1 << start);
-        return dp[start][1<<start];
+        return dfs(start, 1 << start);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -79,7 +80,7 @@ public class _2098_외판원순회 {
 
         n = kb.nextInt();
         board = new int[n][n];
-        dp = new int[n][1 << n]; // [n]: last의 경우의수 n개, [1<<n]: visited의 상태값 경우의수 2^n
+        dp = new Integer[n][1 << n]; // [n]: last의 경우의수 n개, [1<<n]: visited의 상태값 경우의수 2^n
         for (int y = 0; y < n; y++) {
             for (int x = 0; x < n; x++) {
                 board[y][x] = kb.nextInt(); // 비용행렬
