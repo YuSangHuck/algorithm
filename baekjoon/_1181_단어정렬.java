@@ -13,16 +13,26 @@ public class _1181_단어정렬 {
 //        2. 길이가 동일하면 사전순
 //        3. 중복제외
 
-        // 4n
+        // 3n이 아닌가봄 ㅠ
 
-//        - distinct(n) -> sorted(n, comparator) -> ArrayList::new(n)
-        ArrayList<String> strings = Arrays.stream(arr).distinct().sorted((o1, o2) -> {
+        HashMap<String, Boolean> hashMap = new HashMap<>();
+        ArrayList<String> strings = new ArrayList<>();
+//        distinct,ArrayList::new(n)
+        for (String key : arr) {
+            Boolean hasKey = hashMap.getOrDefault(key, false);
+            if (!hasKey) {
+                strings.add(key);
+                hashMap.put(key, true);
+            }
+        }
+//        sorted(n, comparator)
+        strings.sort((o1, o2) -> {
             if (o1.length() == o2.length()) {
                 return o1.compareTo(o2);
             } else {
                 return o1.length() - o2.length();
             }
-        }).collect(Collectors.toCollection(ArrayList::new));
+        });
 
         // iter4StringBuilder(n)
         StringBuilder sb = new StringBuilder();
