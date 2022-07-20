@@ -8,25 +8,17 @@ import java.util.*;
 public class _1260_DFS와BFS {
 
     private static final ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-    private static int[] sequence;
+    private static final StringBuilder sb4bfs = new StringBuilder();
+    private static final StringBuilder sb4dfs = new StringBuilder();
     private static boolean[] ch;
     private static int n;
-    private static int p = 0;
-
-    private static void printSequence() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < p; i++) {
-            sb.append(sequence[i]).append(' ');
-        }
-        System.out.println(sb);
-    }
 
     private static void dfs(int d, int v) {
         ArrayList<Integer> nexts = graph.get(v);
         for (Integer next : nexts) {
             if (!ch[next]) {
                 ch[next] = true;
-                sequence[p++] = next;
+                sb4dfs.append(next).append(' ');
                 dfs(d + 1, next);
             }
         }
@@ -34,10 +26,9 @@ public class _1260_DFS와BFS {
 
     private static void bfs(int v) {
         Queue<Integer> q = new ArrayDeque<>();
-        p = 0;
         q.offer(v);
         ch[v] = true;
-        sequence[p++] = v;
+        sb4bfs.append(v).append(' ');
 
         while (!q.isEmpty()) {
             int c = q.poll();
@@ -45,7 +36,7 @@ public class _1260_DFS와BFS {
                 if (!ch[integer]) {
                     q.offer(integer);
                     ch[integer] = true;
-                    sequence[p++] = integer;
+                    sb4bfs.append(integer).append(' ');
                 }
             }
         }
@@ -66,16 +57,14 @@ public class _1260_DFS와BFS {
             Collections.sort(arrayList);
         }
 
-        p = 0;
         ch[v] = true;
-        sequence[p++] = v;
+        sb4dfs.append(v).append(' ');
         dfs(1, v);
-        printSequence();
+        System.out.println(sb4dfs);
 
         Arrays.fill(ch, false);
-        Arrays.fill(sequence, 0);
         bfs(v);
-        printSequence();
+        System.out.println(sb4bfs);
     }
 
     public static void main(String[] args) throws FileNotFoundException {
@@ -85,7 +74,6 @@ public class _1260_DFS와BFS {
 
         n = kb.nextInt();
         ch = new boolean[n + 1];
-        sequence = new int[n];
         int m = kb.nextInt();
         int v = kb.nextInt();
         int[][] arr = new int[m][2];
