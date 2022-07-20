@@ -11,44 +11,30 @@ public class _1260_DFS와BFS {
     private static int[] sequence;
     private static boolean[] ch;
     private static int n;
-    private static boolean isDfsEnd;
+    private static int p = 0;
+
+    private static void printSequence() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < p; i++) {
+            sb.append(sequence[i]).append(' ');
+        }
+        System.out.println(sb);
+    }
 
     private static void dfs(int d, int v) {
-        if (isDfsEnd) {
-            return;
-        }
-        ArrayList<Integer> candidates = graph.get(v);
-        ArrayList<Integer> nexts = new ArrayList<>();
-        for (Integer candidate : candidates) {
-            if (!ch[candidate]) {
-                nexts.add(candidate);
-            }
-        }
-        if (nexts.size() == 0) {
-            isDfsEnd = true;
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < d; i++) {
-                sb.append(sequence[i]).append(' ');
-            }
-            System.out.println(sb);
-            return;
-        }
-
+        ArrayList<Integer> nexts = graph.get(v);
         for (Integer next : nexts) {
             if (!ch[next]) {
                 ch[next] = true;
-                sequence[d] = next;
+                sequence[p++] = next;
                 dfs(d + 1, next);
-                ch[next] = false;
-                sequence[d] = 0;
             }
         }
-
     }
 
     private static void bfs(int v) {
         Queue<Integer> q = new ArrayDeque<>();
-        int p = 0;
+        p = 0;
         q.offer(v);
         ch[v] = true;
         sequence[p++] = v;
@@ -63,12 +49,6 @@ public class _1260_DFS와BFS {
                 }
             }
         }
-
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < p; i++) {
-            sb.append(sequence[i]).append(' ');
-        }
-        System.out.println(sb);
     }
 
     private static void solution(int n, int m, int v, int[][] arr) {
@@ -86,13 +66,16 @@ public class _1260_DFS와BFS {
             Collections.sort(arrayList);
         }
 
+        p = 0;
         ch[v] = true;
-        sequence[0] = v;
+        sequence[p++] = v;
         dfs(1, v);
+        printSequence();
 
         Arrays.fill(ch, false);
         Arrays.fill(sequence, 0);
         bfs(v);
+        printSequence();
     }
 
     public static void main(String[] args) throws FileNotFoundException {
