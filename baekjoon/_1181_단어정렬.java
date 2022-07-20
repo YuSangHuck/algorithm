@@ -2,53 +2,32 @@ package baekjoon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 //public class Main {
 public class _1181_단어정렬 {
-    static class CustomString implements Comparable<CustomString> {
-        String s;
-
-        public CustomString(String s) {
-            this.s = s;
-        }
-
-        @Override
-        public int compareTo(CustomString o) {
-            if (s.length() == o.s.length()) {
-                return s.compareTo(o.s);
-            } else {
-                return s.length() - o.s.length();
-            }
-        }
-    }
 
     private static String solution(int n, String[] arr) {
 //        1. 길이가 짧은거부터
 //        2. 길이가 동일하면 사전순
 //        3. 중복제외
 
-        // ㅁㄹ 젤 느림
+        // 4n
 
-        HashMap<String, Boolean> hashMap = new HashMap<>();
-        ArrayList<CustomString> strings = new ArrayList<>();
-//        distinct,ArrayList::new(n)
-        for (String key : arr) {
-            Boolean hasKey = hashMap.getOrDefault(key, false);
-            if (!hasKey) {
-                strings.add(new CustomString(key));
-                hashMap.put(key, true);
+//        - distinct(n) -> sorted(n, comparator) -> ArrayList::new(n)
+        ArrayList<String> strings = Arrays.stream(arr).distinct().sorted((o1, o2) -> {
+            if (o1.length() == o2.length()) {
+                return o1.compareTo(o2);
+            } else {
+                return o1.length() - o2.length();
             }
-        }
-//        sorted(n, comparator)
-        strings.sort(null);
+        }).collect(Collectors.toCollection(ArrayList::new));
 
         // iter4StringBuilder(n)
         StringBuilder sb = new StringBuilder();
-        for (CustomString string : strings) {
-            sb.append(string.s).append('\n');
+        for (String string : strings) {
+            sb.append(string).append('\n');
         }
         return sb.toString();
     }
