@@ -2,7 +2,6 @@ package baekjoon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.Arrays;
 import java.util.Scanner;
 
 //  answer = INF
@@ -42,32 +41,38 @@ import java.util.Scanner;
 //public class Main {
 public class _2098_외판원순회 {
 
-    private static int n, start, ALL_VISITED;
+    private static int n, start, ALL_VISITED, INF;
     private static int[][] board;
     private static Integer[][] dp;
 
     private static int dfs(int last, int visited) {
         if (visited == ALL_VISITED) {
-            return board[last][start] != 0 ? board[last][start] : Integer.MAX_VALUE;
+            return board[last][start] != 0 ? board[last][start] : INF;
         }
 
         if (dp[last][visited] != null) {
             return dp[last][visited];
         }
 
-        int tmp = Integer.MAX_VALUE;
+        dp[last][visited] = INF;
         for (int left = 0; left < n; left++) {
-            boolean notVisit = (visited & (1 << left)) == 0;
-            if (notVisit && board[last][left] != 0) {
-                tmp = Math.min(tmp,
-                        dfs(left, visited | (1 << left)) + board[last][left]);
+            // TODO 여기 조건에 따라서 답이 바뀌어서 그거 확인중 하.. &는 0인지 확인할수있지...
+//            특정비트가 1인지 볼라면 0>을 조건으로 걸어야지...
+            boolean notVisit = (visited & (1 << left)) == 1;
+            if (notVisit) {
+                continue;
             }
+            if (board[last][left] == 0) {
+                continue;
+            }
+            dp[last][visited] = Math.min(dp[last][visited],
+                    dfs(left, visited | (1 << left)) + board[last][left]);
         }
-        dp[last][visited] = tmp;
-        return tmp;
+        return dp[last][visited];
     }
 
     private static int solution() {
+        INF = Integer.MAX_VALUE;
         ALL_VISITED = (1 << n) - 1;
         start = 0;
         return dfs(start, 1 << start);
